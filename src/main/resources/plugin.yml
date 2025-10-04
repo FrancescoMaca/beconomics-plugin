@@ -1,0 +1,22 @@
+name: Beaconomics
+version: '1.0.0-BETA'
+main: com.swondi.beaconomics.Beaconomics
+api-version: '1.21'
+authors: [ Francesco Macaluso ]
+website: https://swondi.com
+commands:
+  team:
+    description: Handles all team related commands
+    usage: /team [add|create|kick]
+  kit:
+    description: Handles all kit related commands
+    usage: /kit [starter]
+  shop:
+    description: Handles all shop related commands
+    usage: /shop
+  home:
+    description: Handle Nexus Home teleport
+    usage: /home
+  system:
+    description: Handles all UI related command
+    usage: ""
