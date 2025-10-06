@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class UIListener implements Listener {
@@ -211,8 +212,14 @@ public class UIListener implements Listener {
 
         Scoreboard.updateScore(player);
 
+        String readableName = Arrays.stream(generatorItem.getType().name()
+            .replaceAll("_", " ")
+            .split(" "))
+            .map((s) -> s.charAt(0) + s.substring(1).toLowerCase())
+            .collect(Collectors.joining(" "));
+
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
         player.getInventory().addItem(generatorItem);
-        player.sendMessage("§aYou purchased a " + genMeta.getItemName() + " for §6$" + price);
+        player.sendMessage("§aYou purchased a " + readableName + " for §6$" + price);
     }
 }

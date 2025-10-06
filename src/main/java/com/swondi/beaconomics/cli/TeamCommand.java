@@ -14,6 +14,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * /team
+ * - add
+ * - kick
+ * - create -> "Place a Nexus to create a Team"
+ * - disband -> "Pickup your Nexus to create a Team"
+ * - info
+ */
 public class TeamCommand implements CommandExecutor, TabCompleter {
     private static final List<String> SUB_CMDS = Arrays.asList("add", "kick", "create", "disband", "info");
 

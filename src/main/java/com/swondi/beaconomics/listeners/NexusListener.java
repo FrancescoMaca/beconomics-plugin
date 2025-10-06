@@ -74,6 +74,12 @@ public class NexusListener implements Listener {
 
         // Sounds
         player.sendMessage("You have placed a " + ChatColor.GOLD + "Nexus" + ChatColor.WHITE + "! Defend it with your " + ChatColor.RED + "life" + ChatColor.WHITE + "!");
+        player.sendMessage(
+            ChatColor.RED + "WARNING" + ChatColor.WHITE +": If you pickup or destroy the Nexus, the faction will be disbanded. The Nexus is the core of your base, thus if someone breaks it:\n" +
+            "- Your team will be disbanded\n" +
+            "- Every team member will be kicked\n" +
+            "- The "+ ChatColor.GOLD + "/nexus" + ChatColor.WHITE + " will not work anymore"
+        );
         player.getWorld().playSound(player.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 1.0f, 0.5f);
     }
 
@@ -107,7 +113,7 @@ public class NexusListener implements Listener {
         Chunk targetChunk = clickedBlock.getChunk();
 
         if (ownChunk.getX() == targetChunk.getX() && ownChunk.getZ() == targetChunk.getZ()) {
-            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_BANJO, 0.5f, 1.8f);
+            player.getWorld().playSound(player.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 0.2f, 2f);
 
             player.openInventory(BeaconMainMenu.build(player));
         } else {

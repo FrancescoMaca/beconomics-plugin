@@ -1,12 +1,13 @@
 package com.swondi.beaconomics.animations;
 
 import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.managers.KitManager;
 import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class KitAnimation {
-    public static void start(Location targetLocation, Runnable onFinish) {
+    public static void start(Location targetLocation, Color color, Runnable onFinish) {
         targetLocation.setX(Math.floor(targetLocation.getX()) + 0.5);
         targetLocation.setZ(Math.floor(targetLocation.getZ()) + 0.5);
 
@@ -24,6 +25,8 @@ public class KitAnimation {
             a.setArms(false);
         });
 
+        KitManager.addFallingArmorStand(stand);
+
         new BukkitRunnable() {
             private double y = startLocation.getY();
 
@@ -39,13 +42,11 @@ public class KitAnimation {
                     world.playSound(stand.getLocation(), Sound.BLOCK_ANVIL_HIT, 1, 1);
 
                     onFinish.run();
+                    KitManager.removeFallingArmorStand(stand);
                     stand.remove();
                     cancel();
                     return;
                 }
-
-                double distance = y - targetLocation.getY();
-
 
                 // Move the armor stand down
                 Location loc = stand.getLocation();
@@ -55,7 +56,8 @@ public class KitAnimation {
                 loc.setY(y);
                 stand.teleport(loc);
 
-                world.spawnParticle(Particle.FIREWORK, targetLocation, 4, 0, 2, 0, 0.01 );
+                Particle.DustOptions redSpark = new Particle.DustOptions(color, 2);
+                world.spawnParticle(Particle.DUST, targetLocation, 7, 0.1, 0.7, 0.1, 0.01, redSpark);
             }
         }.runTaskTimer(Beaconomics.getInstance(), 0L, 1L); // run every tick
     }

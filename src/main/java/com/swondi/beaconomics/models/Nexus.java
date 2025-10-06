@@ -3,20 +3,30 @@ package com.swondi.beaconomics.models;
 import com.swondi.beaconomics.managers.YamlManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 
+import java.util.Map;
 import java.util.UUID;
 
 public class Nexus {
     private final UUID owner;
     private final Location location;
     private int fuelAmount;
-    private int fuelConsumption;
+    private final Map<Location, DefenseBlock> defenseBlocks;
 
-    public Nexus(UUID owner, Location location, int fuelAmount, int fuelConsumption) {
+    public Nexus(UUID owner, Location location, int fuelAmount, Map<Location, DefenseBlock> defenseBlocks) {
         this.owner = owner;
         this.location = location;
         this.fuelAmount = fuelAmount;
-        this.fuelConsumption = fuelConsumption;
+        this.defenseBlocks = defenseBlocks;
+    }
+
+    public void addDefenseBlock(Block block) {
+
+    }
+
+    public void destroyDefenseBlock(Block block) {
+
     }
 
     public String getId() {
@@ -35,12 +45,12 @@ public class Nexus {
         return fuelAmount;
     }
 
-    public int getFuelConsumption() {
-        return fuelConsumption;
-    }
-
-    public void setFuelConsumption(int fuelConsumption) {
-        this.fuelConsumption = fuelConsumption;
+    public double getFuelConsumption() {
+        double fuelConumption = 0;
+        for (Map.Entry<Location, DefenseBlock> block : defenseBlocks.entrySet()) {
+            fuelConumption += block.getValue().getFuelConsumption();
+        }
+        return fuelConumption;
     }
 
     public void setFuelAmount(int fuelAmount) {
@@ -57,7 +67,7 @@ public class Nexus {
         yaml.set(path + ".z", location.getBlockZ());
         yaml.set(path + ".world", world);
         yaml.set(path + ".fuelAmount", fuelAmount);
-        yaml.set(path + ".fuelConsumption", fuelConsumption);
+        yaml.set(path + ".fuelConsumption", getFuelConsumption());
         yaml.save();
     }
 
@@ -67,7 +77,7 @@ public class Nexus {
         yaml.remove(path);
     }
 
-    public static Nexus fromYaml(YamlManager yaml, String id) {
+    public static Nexus fromYaml(YamlManager yaml, String id, Map<Location, DefenseBlock> defenseBlocks) {
         String path = "nexuses." + id;
 
         if (!yaml.getConfiguration().contains(path)) return null;
@@ -82,13 +92,12 @@ public class Nexus {
         );
 
         int fuelAmount = yaml.getInt(path + ".fuelAmount");
-        int fuelConsumption = yaml.getInt(path + ".fuelConsumption");
 
         return new Nexus(
-            UUID.fromString(yaml.getString(path + ".owner")),
+            owner,
             nexusLocation,
             fuelAmount,
-            fuelConsumption == 0 ? 16 : fuelConsumption
+            defenseBlocks
         );
     }
 }

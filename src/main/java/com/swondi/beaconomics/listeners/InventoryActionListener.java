@@ -55,7 +55,12 @@ public class InventoryActionListener implements Listener {
 
         switch (clicked.getType()) {
             case BARRIER -> player.openInventory(BeaconPickupMenu.build());
-            case CHEST -> player.openInventory(BeaconFuelMenu.build(player));
+            case CHEST -> {
+                var beaconFuelMenu = BeaconFuelMenu.build(player);
+                if (beaconFuelMenu != null) {
+                    player.openInventory(beaconFuelMenu);
+                }
+            }
             case BLAZE_POWDER -> player.openInventory(BeaconUpgradeMenu.build(player));
             case PLAYER_HEAD -> player.openInventory(BeaconTeamMenu.build());
         }

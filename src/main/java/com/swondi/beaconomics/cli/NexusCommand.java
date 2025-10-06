@@ -1,7 +1,6 @@
 package com.swondi.beaconomics.cli;
 
 import com.swondi.beaconomics.managers.NexusManager;
-import com.swondi.beaconomics.menus.shop.ShopMainMenu;
 import com.swondi.beaconomics.models.Nexus;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HomeCommand implements CommandExecutor, TabCompleter {
+public class NexusCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(

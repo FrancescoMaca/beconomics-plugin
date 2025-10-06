@@ -4,11 +4,31 @@ import com.swondi.beaconomics.helpers.ItemStackCreator;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class KitManager {
+
+    private static final Set<ArmorStand> fallingArmorStands = new HashSet<>();
+
+    public static void addFallingArmorStand(ArmorStand armorStand) {
+        fallingArmorStands.add(armorStand);
+    }
+
+    public static void removeFallingArmorStand(ArmorStand armorStand) {
+        fallingArmorStands.remove(armorStand);
+    }
+
+    public static void removeAllFallingArmorStands() {
+        for (ArmorStand armorStand : fallingArmorStands) {
+            armorStand.remove();
+        }
+    }
 
     public static void giveStarterKit(Block block) {
         // Ensure it’s actually a chest

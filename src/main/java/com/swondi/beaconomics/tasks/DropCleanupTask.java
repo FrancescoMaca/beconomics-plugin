@@ -1,7 +1,9 @@
 package com.swondi.beaconomics.tasks;
 
 import com.swondi.beaconomics.models.Kit;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
@@ -23,6 +25,12 @@ public class DropCleanupTask extends BukkitRunnable {
     public void run() {
         for (Kit chest : drops) {
             if (TickTask.tick >= (chest.getCreatedAt() + 3000)) {
+                Bukkit.getWorld("world").spawnParticle(
+                    Particle.BLOCK,
+                    chest.getLocation().add(0.5, 0.5, 0.5),
+                    100, 0.5, 0.5, 0.5,
+                    Material.CHEST.createBlockData()
+                );
                 chest.getLocation().getWorld().setType(chest.getLocation(), Material.AIR);
                 removeChest(chest.getId());
             }

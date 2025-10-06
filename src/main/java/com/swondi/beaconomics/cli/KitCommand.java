@@ -32,10 +32,10 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(
-            @Nonnull CommandSender sender,
-            @Nonnull Command command,
-            @Nonnull String label,
-            @Nonnull String[] args
+        @Nonnull CommandSender sender,
+        @Nonnull Command command,
+        @Nonnull String label,
+        @Nonnull String[] args
     ) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("§cOnly players can use this command!");
@@ -49,71 +49,27 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
         String kitName = args[0].toLowerCase();
 
+        String permission = "beaconomics.kit." + kitName;
+
+        if (!player.hasPermission(permission)) {
+            player.sendMessage(ChatColor.RED + "You do not have permission to use this kit!");
+            return true;
+        }
+
         switch (kitName) {
-            case "starter":
-                if (player.getLocation().getY() > 150) {
-                    player.sendMessage(ChatColor.RED + "You can only use care packages in a Y level less than 150!");
-                    break;
-                }
-
-                player.sendMessage("Your care package is arriving....");
-
-                Location dropLocation = player.getLocation().clone();
-                dropLocation.setY(findFirstAvailableBlock(dropLocation));
-
-                KitAnimation.start(dropLocation, () -> {
-                    player.sendMessage(ChatColor.GREEN + "Starter Kit has landed!!" + ChatColor.WHITE + " Don't sweat it though, no one can open it other than you!");
-                    Block blockAtDrop = player.getWorld().getBlockAt(dropLocation);
-                    PDCManager.tagAsKitChest(blockAtDrop);
-                    PDCManager.setLockedChest(blockAtDrop, player);
-
-                    spawnFireWave(dropLocation, Particle.FIREWORK, 4, 180, 1);
-
-                    KitManager.giveStarterKit(dropLocation.getBlock());
-
-                    Kit kit = new Kit(
-                            dropLocation.getBlockX() + "_" + dropLocation.getBlockY() + "_" + dropLocation.getBlockZ(),
-                            "Starter Kit",
-                            player.getUniqueId(),
-                            true,
-                            100,
-                            TickTask.tick,
-                            dropLocation
-                    );
-
-                    DropCleanupTask.addChest(kit);
-                });
-                break;
-
-            case "inferno":
-                handleKit(player, "Inferno Kit", KitManager::giveInfernoKit);
-                break;
-
-            case "fire":
-                handleKit(player, "Fire Kit", KitManager::giveFireKit);
-                break;
-
-            case "ember":
-                handleKit(player, "Ember Kit", KitManager::giveEmberKit);
-                break;
-
-            case "blaze":
-                handleKit(player, "Blaze Kit", KitManager::giveBlazeKit);
-                break;
-
-            case "spark":
-                handleKit(player, "Spark Kit", KitManager::giveSparkKit);
-                break;
-
-            default:
-                player.sendMessage("§cUnknown kit: " + kitName);
-                break;
+            case "starter" -> handleKit(player, "Starter Kit", Color.WHITE, KitManager::giveStarterKit);
+            case "inferno" -> handleKit(player, "Inferno Kit", Color.ORANGE, KitManager::giveInfernoKit);
+            case "fire" -> handleKit(player, "Fire Kit", Color.RED, KitManager::giveFireKit);
+            case "ember" -> handleKit(player, "Ember Kit", Color.GREEN, KitManager::giveEmberKit);
+            case "blaze" -> handleKit(player, "Blaze Kit", Color.YELLOW, KitManager::giveBlazeKit);
+            case "spark" -> handleKit(player, "Spark Kit", Color.TEAL, KitManager::giveSparkKit);
+            default -> player.sendMessage("§cUnknown kit: " + kitName);
         }
 
         return true;
     }
 
-    private void handleKit(Player player, String kitName, KitHandler kitFiller) {
+    private void handleKit(Player player, String kitName, Color color, KitHandler kitFiller) {
         if (player.getLocation().getY() > 150) {
             player.sendMessage(ChatColor.RED + "You can only use care packages in a Y level less than 150!");
             return;
@@ -124,7 +80,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
         Location dropLocation = player.getLocation().clone();
         dropLocation.setY(findFirstAvailableBlock(dropLocation));
 
-        KitAnimation.start(dropLocation, () -> {
+        KitAnimation.start(dropLocation, color, () -> {
             player.sendMessage(ChatColor.GREEN + kitName + " has landed!!" + ChatColor.WHITE + " Don't sweat it though, no one can open it other than you!");
             Block blockAtDrop = player.getWorld().getBlockAt(dropLocation);
             PDCManager.tagAsKitChest(blockAtDrop);

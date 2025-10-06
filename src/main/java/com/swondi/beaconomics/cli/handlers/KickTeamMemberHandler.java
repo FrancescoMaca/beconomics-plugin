@@ -1,7 +1,6 @@
 package com.swondi.beaconomics.cli.handlers;
 
 import com.swondi.beaconomics.cli.data.TokenCommandManager;
-import com.swondi.beaconomics.managers.TeamManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;

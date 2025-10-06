@@ -1,6 +1,10 @@
 package com.swondi.beaconomics.utils;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Constants {
     // UI inventories titles
@@ -23,6 +27,7 @@ public class Constants {
     public static final String PDC_KIT_CHEST_TAG = "is_kit_chest";
     public static final String PDC_GENERATOR_TAG = "is_generator";
     public static final String PDC_TEMPORARY_BLOCK_TAG = "is_temporary";
+    public static final String PDC_DEFENSE_BLOCK_TAG = "is_defense";
 
     // Players keys for persistent values
     public static final String PLAYER_PERSIST_BEACON_LEVEL_KEY = "data_player_beacon_level";
@@ -42,4 +47,19 @@ public class Constants {
     public static final String UI_SHOP_TOOLS_MENU_VALUE = "shop_tools_menu";
 
     public static final String UI_BEACON_LEVEL_KEY = "buy_beacon_level_";
+
+    public static final Map<Material, DefenseBlockConstant> DATA_DEFENSE_BLOCKS = new HashMap<>() {{
+        put(Material.MUD_BRICKS, new DefenseBlockConstant(1, 50));
+        put(Material.SANDSTONE, new DefenseBlockConstant(2, 150));
+        put(Material.STONE_BRICKS, new DefenseBlockConstant(3, 250));
+        put(Material.POLISHED_BLACKSTONE_BRICKS, new DefenseBlockConstant(4, 500));
+        put(Material.OBSIDIAN, new DefenseBlockConstant(6, 1000));
+        put(Material.OAK_DOOR, new DefenseBlockConstant(1, 50));
+        put(Material.BIRCH_DOOR, new DefenseBlockConstant(2, 150));
+        put(Material.SPRUCE_DOOR, new DefenseBlockConstant(3, 250));
+        put(Material.CRIMSON_DOOR, new DefenseBlockConstant(4, 500));
+        put(Material.PALE_OAK_DOOR, new DefenseBlockConstant(6, 1000));
+    }};
+
+    public record DefenseBlockConstant(double fuelConsumption, int health) { }
 }

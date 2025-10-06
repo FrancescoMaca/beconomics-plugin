@@ -43,19 +43,6 @@ public class Generator {
         return location;
     }
 
-    /**
-     * Creates a new Generator with optionally overridden fields.
-     * Pass null for fields you want to keep unchanged.
-     */
-    public Generator copyWith(String id, Material type, Integer rate, Material drop, Location location) {
-        return new Generator(
-            type != null ? type : this.type,
-            rate != null ? rate : this.rate,
-            drop != null ? drop : this.drop,
-            location != null ? location : this.location
-        );
-    }
-
     public static Generator fromYaml(YamlManager source, String id) {
         String path = "generators." + id;
 

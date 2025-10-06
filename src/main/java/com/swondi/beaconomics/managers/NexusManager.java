@@ -1,5 +1,6 @@
 package com.swondi.beaconomics.managers;
 
+import com.swondi.beaconomics.models.DefenseBlock;
 import com.swondi.beaconomics.models.Nexus;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -12,15 +13,13 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 /**
  * Handles all Nexus interactions.
  */
 public class NexusManager {
-
     private final static YamlManager yaml = new YamlManager("nexuses.yml");
-
-    // <NexusID -> Nexus object>
     private final static Map<String, Nexus> nexuses = new HashMap<>();
 
     // Autoload from file on startup
@@ -35,8 +34,16 @@ public class NexusManager {
                 int x = map.getInt("x");
                 int y = map.getInt("y");
                 int z = map.getInt("z");
+                String nexusId = x + "_" + y + "_" + z;
 
-                Nexus nexus = Nexus.fromYaml(yaml, x + "_" + y + "_" + z);
+//                Map<Location, DefenseBlock> defenseForNexus = DefenseBlocksManager.getAllDefensesFor(nexusId)
+//                    .stream()
+//                    .collect(Collectors.toMap(
+//                        DefenseBlock::getLocation,
+//                        defenseBlock -> defenseBlock)
+//                    );
+
+                Nexus nexus = Nexus.fromYaml(yaml, nexusId, Map.of());
 
                 if (nexus == null) continue;
 
@@ -59,7 +66,7 @@ public class NexusManager {
             return;
         }
 
-        Nexus nexus = new Nexus(player.getUniqueId(), block.getLocation(), 0, 16);
+        Nexus nexus = new Nexus(player.getUniqueId(), block.getLocation(), 0, Map.of());
 
         // Saves the nexus in the map
         nexuses.put(nexus.getId(), nexus);
@@ -149,5 +156,22 @@ public class NexusManager {
         }
 
         return null;
+    }
+
+    public static void backup() {
+        // TODO: add "hasChanged" flag to see if its necessary to save the nexus to file
+
+        int count = 0;
+        for (Nexus nexus : nexuses.values()) {
+            try {
+                nexus.saveToYaml(yaml);
+                count++;
+            }
+            catch (Exception e) {
+                Bukkit.getLogger().severe("Nexus with ID \"" + nexus.getId() + "\" could not be saved to disk: " + e.getMessage());
+            }
+        }
+
+        Bukkit.getLogger().info("[NexusManager] Backup complete. Saved " + count + " nexuses to disk");
     }
 }

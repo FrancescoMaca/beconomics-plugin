@@ -4,10 +4,7 @@ import com.swondi.beaconomics.Beaconomics;
 import com.swondi.beaconomics.managers.PDCManager;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
 import com.swondi.beaconomics.utils.Constants;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.block.TileState;
@@ -42,11 +39,12 @@ public class ChestListener implements Listener {
      */
     @EventHandler
     public void onChestInteract(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+
         if (event.getClickedBlock() == null) return;
         if (event.getClickedBlock().getType() != Material.CHEST) return;
-        if (event.getAction() == Action.LEFT_CLICK_BLOCK) return;
+        if (event.getAction() == Action.LEFT_CLICK_BLOCK || player.isSneaking()) return;
 
-        Player player = event.getPlayer();
         Block block = event.getClickedBlock();
 
         // Cancel before the chest actually opens (this also prevents the sound)
@@ -86,6 +84,7 @@ public class ChestListener implements Listener {
         if (!(event.getInventory().getHolder() instanceof Chest chest)) return;
 
         Block block = chest.getBlock();
+
         // Check if it’s actually a chest block still
         if (block.getType() != Material.CHEST) return;
 
@@ -97,6 +96,11 @@ public class ChestListener implements Listener {
         // If chest is empty, remove it
         if (chest.getInventory().isEmpty()) {
             block.setType(Material.AIR);
+            Bukkit.getWorld("world").spawnParticle(
+                Particle.CRIMSON_SPORE,
+                chest.getLocation().add(0.5, 0.5, 0.5),
+                50, 0.1, 0.1, 0.1
+            );
             player.playSound(block.getLocation(), Sound.ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, 1, 1);
         }
     }
