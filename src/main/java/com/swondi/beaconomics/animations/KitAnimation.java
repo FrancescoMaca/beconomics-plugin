@@ -5,8 +5,12 @@ import org.bukkit.*;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class KitAnimation {
-    public static void start(Location targetLocation, Runnable onFinish) {
+
+    public static void start(Location targetLocation, Runnable onFinish, String kitname) {
         targetLocation.setX(Math.floor(targetLocation.getX()) + 0.5);
         targetLocation.setZ(Math.floor(targetLocation.getZ()) + 0.5);
 
@@ -37,6 +41,17 @@ public class KitAnimation {
                     world.getBlockAt(targetLocation).setType(Material.CHEST);
 
                     world.playSound(stand.getLocation(), Sound.BLOCK_ANVIL_HIT, 1, 1);
+
+                    // Spawn a nametag ArmorStand above the chest
+                    ArmorStand nameTag = world.spawn(targetLocation.clone().add(0, 1, 0), ArmorStand.class, a -> {
+                        a.setCustomName(ChatColor.GOLD + kitname);
+                        a.setCustomNameVisible(true);
+                        a.setVisible(false);
+                        a.setGravity(false);
+                        a.setMarker(true);
+                    });
+
+                    //kitChestNameTags.put(targetLocation.clone().add(0, 1, 0),nameTag);
 
                     onFinish.run();
                     stand.remove();

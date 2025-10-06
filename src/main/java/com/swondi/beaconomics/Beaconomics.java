@@ -1,9 +1,6 @@
 package com.swondi.beaconomics;
 
-import com.swondi.beaconomics.cli.HomeCommand;
-import com.swondi.beaconomics.cli.KitCommand;
-import com.swondi.beaconomics.cli.ShopCommand;
-import com.swondi.beaconomics.cli.TeamCommand;
+import com.swondi.beaconomics.cli.*;
 import com.swondi.beaconomics.cli.system.SystemClickCommands;
 import com.swondi.beaconomics.data.YamlVerifier;
 import com.swondi.beaconomics.debug.listeners.DebugBeaconLevelListener;
@@ -45,7 +42,9 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new DebugBeaconLevelListener(), this);
         getServer().getPluginManager().registerEvents(new CandleSellListener(), this);
 
-        Objects.requireNonNull(getCommand("home")).setExecutor(new HomeCommand());
+        Objects.requireNonNull(getCommand("sethome")).setExecutor(new SetHomeCommand());
+        //FIXME change home name
+        Objects.requireNonNull(getCommand("nexus")).setExecutor(new NexusCommand());
         Objects.requireNonNull(getCommand("team")).setExecutor(new TeamCommand());
         Objects.requireNonNull(getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(getCommand("shop")).setExecutor(new ShopCommand());

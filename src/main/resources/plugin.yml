@@ -14,9 +14,12 @@ commands:
   shop:
     description: Handles all shop related commands
     usage: /shop
-  home:
+  sethome:
+    description: Handles player possibility to set a home
+    usage: /sethome
+  nexus:
     description: Handle Nexus Home teleport
-    usage: /home
+    usage: /nexus
   system:
     description: Handles all UI related command
     usage: ""

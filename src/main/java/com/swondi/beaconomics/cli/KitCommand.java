@@ -82,7 +82,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                     );
 
                     DropCleanupTask.addChest(kit);
-                });
+                }, "Starter Kit");
                 break;
 
             case "inferno":
@@ -146,7 +146,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             );
 
             DropCleanupTask.addChest(kit);
-        });
+        }, kitName);
     }
 
     @Override

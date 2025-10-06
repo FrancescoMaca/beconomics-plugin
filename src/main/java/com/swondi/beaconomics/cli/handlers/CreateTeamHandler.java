@@ -24,13 +24,13 @@ public class CreateTeamHandler {
             return;
         }
 
-        if(!TeamManager.isValidTeamName(args[1])){
-            sender.sendMessage(ChatColor.RED + "Team name must not contain invalid digits!");
+        if(TeamManager.getTeamOf(player) != null){
+            sender.sendMessage(ChatColor.RED + "You are already part of a team!");
             return;
         }
 
-        if(TeamManager.getTeamOf(player) != null){
-            sender.sendMessage(ChatColor.RED + "You are already part of a team!");
+        if(!TeamManager.isValidTeamName(args[1])){
+            sender.sendMessage(ChatColor.RED + "Team name must not contain invalid digits!");
             return;
         }
 
