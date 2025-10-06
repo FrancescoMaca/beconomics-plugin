@@ -1,11 +1,11 @@
 package com.swondi.beaconomics.managers;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 public class TeamManager {
@@ -14,6 +14,11 @@ public class TeamManager {
     // Create a new team when a player places a beacon
     public static void createTeam(Player owner, String teamName) {
         String ownerId = owner.getUniqueId().toString();
+
+        if(getTeamOf(owner) != null){
+            owner.sendMessage("You are already part of a team!");
+            return;
+        }
 
         yaml.set(teamName + ".owner", ownerId);
         yaml.set(teamName + ".members", new ArrayList<String>() {{ add(ownerId); }});
@@ -25,11 +30,13 @@ public class TeamManager {
         String ownerId = owner.getUniqueId().toString();
         String teamName = getTeamOf(owner);
 
+        //FIXME useless even if triggered action is executed
         if (teamName == null) {
             owner.sendMessage(ChatColor.RED + "You are not in a team!");
             return;
         }
 
+        //FIXME useless even if triggered action is executed
         String teamOwner = yaml.getString(teamName + ".owner");
         if (!ownerId.equals(teamOwner)) {
             owner.sendMessage(ChatColor.RED + "Only the team owner can disband the team!");
@@ -39,13 +46,26 @@ public class TeamManager {
         yaml.set(teamName, null);
         yaml.save();
 
-        owner.sendMessage(ChatColor.GREEN + "Team " + teamName + " has been disbanded!");
+        owner.sendMessage(ChatColor.GREEN + "Team " + teamName + " has been disbanded with success!");
     }
 
     // Add a player to the owner's team
-    public static void addToTeam(Player owner, Player teammate) {
+    public static void addToTeam(Player owner, String targetName) {
         String ownerId = owner.getUniqueId().toString();
-        String teammateId = teammate.getUniqueId().toString();
+
+        Player target = Bukkit.getPlayer(targetName);
+
+        if (owner.getName().equals(targetName)){
+            owner.sendMessage(ChatColor.RED +"You can't invite yourself!");
+            return;
+        }
+
+        if (target == null) {
+            owner.sendMessage("Player is offline!");
+            return;
+        }
+
+        String teammateId = target.getUniqueId().toString();
         String teamName = getTeamOf(owner);
 
         if (teamName == null) {
@@ -61,13 +81,13 @@ public class TeamManager {
 
         List<String> members = yaml.getStringList(teamName + ".members");
         if (members.contains(teammateId)) {
-            owner.sendMessage(ChatColor.RED + teammate.getName() + " is already in your team!");
+            owner.sendMessage(ChatColor.RED + target.getName() + " is already in your team!");
             return;
         }
 
         // Check if teammate is already in a team
-        if (getTeamOf(teammate) != null) {
-            owner.sendMessage(ChatColor.RED + teammate.getName() + " is already in another team!");
+        if (getTeamOf(target) != null) {
+            owner.sendMessage(ChatColor.RED + target.getName() + " is already in another team!");
             return;
         }
 
@@ -75,8 +95,8 @@ public class TeamManager {
         yaml.set(teamName + ".members", members);
         yaml.save();
 
-        owner.sendMessage(ChatColor.GREEN + teammate.getName() + " has been added to your team!");
-        teammate.sendMessage(ChatColor.GREEN + "You have joined " + teamName + "!");
+        owner.sendMessage(ChatColor.GREEN + target.getName() + " has been added to your team!");
+        target.sendMessage(ChatColor.GREEN + "You have joined " + teamName + "!");
     }
 
     // Remove a player from the owner's team
@@ -115,18 +135,27 @@ public class TeamManager {
     }
 
     public static String getTeamOf(Player player) {
-        if (!yaml.getConfiguration().contains("teams")) return null;
+        for (String teamName : yaml.getConfiguration().getKeys(false)) {
+            String owner = yaml.getString(teamName + ".owner");
+            List<String> members = yaml.getStringList(teamName + ".members");
 
-        for (String teamName : Objects.requireNonNull(yaml.getConfiguration().getConfigurationSection("teams")).getKeys(false)) {
-            String owner = yaml.getString("teams." + teamName + ".owner");
-            List<String> members = yaml.getStringList("teams." + teamName + ".members");
-
-            if (owner.equals(player.getUniqueId().toString()) || members.contains(player.getUniqueId().toString())) {
+            if (player.getUniqueId().toString().equals(owner) || members.contains(player.getUniqueId().toString())) {
                 return teamName;
             }
         }
-
         return null;
+    }
+
+    public static String getTeamOwner(String teamName){
+        return yaml.getString(teamName + ".owner");
+    }
+
+    public static boolean isTeamNameUnique(String teamName){
+        return yaml.get(teamName) == null;
+    }
+
+    public static boolean isValidTeamName(String name) {
+        return name.toLowerCase().matches("^[A-Za-z0-9_-]{3,16}$");
     }
 
 }

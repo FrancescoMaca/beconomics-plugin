@@ -12,6 +12,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
+<<<<<<< HEAD
+=======
+import org.bukkit.scoreboard.Team;
+>>>>>>> origin/TeamsDev
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -62,6 +66,13 @@ public class SystemClickCommands implements CommandExecutor, TabCompleter {
                 }
 
                 break;
+<<<<<<< HEAD
+=======
+            case "team-disband":
+                TeamManager.disbandTeam(player);
+                player.sendMessage(ChatColor.WHITE + "Team '" + ChatColor.AQUA + args[2] + ChatColor.WHITE + "' disband!");
+                break;
+>>>>>>> origin/TeamsDev
             case "team-create":
                 TeamManager.createTeam(player, args[2]);
                 player.sendMessage(ChatColor.WHITE + "Team '" + ChatColor.AQUA + args[2] + ChatColor.WHITE + "' created!");

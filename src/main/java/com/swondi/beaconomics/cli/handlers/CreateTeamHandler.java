@@ -1,6 +1,7 @@
 package com.swondi.beaconomics.cli.handlers;
 
 import com.swondi.beaconomics.cli.data.TokenCommandManager;
+import com.swondi.beaconomics.managers.TeamManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -23,10 +24,24 @@ public class CreateTeamHandler {
             return;
         }
 
+        if(!TeamManager.isValidTeamName(args[1])){
+            sender.sendMessage(ChatColor.RED + "Team name must not contain invalid digits!");
+            return;
+        }
+
+        if(TeamManager.getTeamOf(player) != null){
+            sender.sendMessage(ChatColor.RED + "You are already part of a team!");
+            return;
+        }
+
         String teamName = String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length));
 
         if (teamName.length() < 2 || teamName.length() > 30) {
-            sender.sendMessage(ChatColor.RED + "Team name must be between 2 and 30 characters.");
+            return;
+        }
+
+        if(!TeamManager.isTeamNameUnique(teamName)) {
+            sender.sendMessage(ChatColor.RED + "Team name already taken!");
             return;
         }
 

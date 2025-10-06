@@ -13,12 +13,12 @@ public class InfoTeamHandler {
 
         String teamName = TeamManager.getTeamOf(player);
 
-
         if (teamName == null) {
             player.sendMessage("You are not a team!");
         }
         else {
             player.sendMessage("You are in '" + teamName + "'!");
+            //TODO add more information values like power members, generator placed, team balance ecc
         }
     }
 }

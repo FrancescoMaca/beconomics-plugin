@@ -32,10 +32,10 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(
-        @Nonnull CommandSender sender,
-        @Nonnull Command command,
-        @Nonnull String label,
-        @Nonnull String[] args
+            @Nonnull CommandSender sender,
+            @Nonnull Command command,
+            @Nonnull String label,
+            @Nonnull String[] args
     ) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("§cOnly players can use this command!");
