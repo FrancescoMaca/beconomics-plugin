@@ -29,7 +29,6 @@ public class EnderChestManager {
         echests.put(player.getUniqueId(), inventory);
 
         String ss = Arrays.stream(inventory.getContents()).filter(Objects::nonNull).map((s) -> s.getType().name()).collect(Collectors.joining(", "));
-        Bukkit.broadcastMessage("Added: " + ss);
 
         new BukkitRunnable() {
             @Override
@@ -51,7 +50,6 @@ public class EnderChestManager {
                     }
                 }
 
-                Bukkit.broadcastMessage("Saved e chest to file (" + i + ")");
                 // Save the inventory contents to file
                 yamlManager.set("enderchest", itemsWithPositions);
             }
@@ -66,7 +64,6 @@ public class EnderChestManager {
     public static Inventory getEchest(Player player) {
         // Check cache first
         if (echests.containsKey(player.getUniqueId())) {
-            Bukkit.broadcastMessage("EChest Cache hit");
             return echests.get(player.getUniqueId());
         }
 
@@ -74,7 +71,6 @@ public class EnderChestManager {
         YamlManager yamlManager = new YamlManager("echest/" + player.getUniqueId() + ".yml");
         MemorySection echestContent = (MemorySection) yamlManager.get("enderchest");
         Inventory inventory = Bukkit.createInventory(player, 54, Constants.ENDER_CHEST_TITLE);
-        Bukkit.broadcastMessage(echestContent.getKeys(false).toString());
 
         // Iterate through each slot (key) in the ender chest data
         for (String key : echestContent.getKeys(false)) {
@@ -82,18 +78,12 @@ public class EnderChestManager {
             Object itemObject = echestContent.get(key);
 
             if (itemObject == null) {
-                Bukkit.broadcastMessage("key: " + key + " not found");
-
                 continue;
             }
 
             if (itemObject instanceof ItemStack item) {
                 // Set the item in the corresponding inventory slot
                 inventory.setItem(slot, item);
-                Bukkit.broadcastMessage("Item added at " + slot);
-            }
-            else {
-                Bukkit.broadcastMessage("Item is not a map");
             }
         }
 

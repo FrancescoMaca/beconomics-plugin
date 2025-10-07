@@ -1,7 +1,7 @@
 package com.swondi.beaconomics.listeners;
 
 import com.swondi.beaconomics.data.CandleData;
-import com.swondi.beaconomics.managers.MoneyManager;
+import com.swondi.beaconomics.managers.BankManager;
 import com.swondi.beaconomics.scoreboards.Scoreboard;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -69,7 +69,7 @@ public class CandleSellListener implements Listener {
         int totalValue = value * totalAmount;
 
         // Add money & update scoreboard
-        MoneyManager.addMoney(player, totalValue);
+        BankManager.addMoney(player, totalValue, false);
         Scoreboard.updateScore(player);
 
         player.sendMessage(ChatColor.GREEN + "You sold " + totalAmount + "x " + formatName(type) + " for $" + totalValue + "!");

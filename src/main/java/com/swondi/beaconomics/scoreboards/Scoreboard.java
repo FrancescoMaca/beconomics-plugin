@@ -1,6 +1,6 @@
 package com.swondi.beaconomics.scoreboards;
 
-import com.swondi.beaconomics.managers.MoneyManager;
+import com.swondi.beaconomics.managers.BankManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.*;
@@ -14,7 +14,7 @@ public class Scoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         // Show formatted money in the entry instead of the numeric score
-        String formatted = "§aMoney: " + MoneyManager.getFormattedMoney(player) + "    ";
+        String formatted = "§aMoney: " + BankManager.getFormattedMoney(player) + "    ";
         objective.getScore(formatted).setScore(0);
 
         player.setScoreboard(board);
@@ -30,7 +30,7 @@ public class Scoreboard {
             }
 
             // Add updated entry
-            String formatted = "§aMoney: " + MoneyManager.getFormattedMoney(player);
+            String formatted = "§aMoney: " + BankManager.getFormattedMoney(player);
             objective.getScore(formatted).setScore(1);
         }
     }

@@ -3,7 +3,7 @@ package com.swondi.beaconomics.listeners;
 import com.swondi.beaconomics.Beaconomics;
 import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.managers.NexusManager;
-import com.swondi.beaconomics.managers.MoneyManager;
+import com.swondi.beaconomics.managers.BankManager;
 import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.menus.nexus.BeaconMainMenu;
 import com.swondi.beaconomics.menus.shop.*;
@@ -22,6 +22,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UIListener implements Listener {
@@ -43,11 +44,9 @@ public class UIListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         PersistentDataContainer container = meta.getPersistentDataContainer();
 
-        String keys = container.getKeys().stream().map(NamespacedKey::getKey).collect(Collectors.joining(", "));
-
         // Checks if the click has some persistent data type for beacon upgrade
         if (container.has(upgradeKey, PersistentDataType.INTEGER)) {
-            int price = container.get(upgradeKey, PersistentDataType.INTEGER);
+            int price = container.getOrDefault(upgradeKey, PersistentDataType.INTEGER, 9999999);
             handleUpgradeBeacon(event, price);
 
             // Not stopping the method because an item can have multiple triggers
@@ -71,25 +70,13 @@ public class UIListener implements Listener {
 
             String value = meta.getPersistentDataContainer().get(navigationKey, PersistentDataType.STRING);
 
-            switch(value) {
-                case Constants.UI_NEXUS_MAIN_MENU_VALUE -> {
-                    player.openInventory(BeaconMainMenu.build(player));
-                }
-                case Constants.UI_SHOP_MAIN_MENU_VALUE -> {
-                    player.openInventory(ShopMainMenu.build(player));
-                }
-                case Constants.UI_SHOP_GENS_MENU_VALUE -> {
-                    player.openInventory(ShopGeneratorsMenu.build(player));
-                }
-                case Constants.UI_SHOP_DEFENCE_MENU_VALUE -> {
-                    player.openInventory(ShopDefenseBlocksMenu.build(player));
-                }
-                case Constants.UI_SHOP_TEMP_BLOCKS_MENU_VALUE -> {
-                    player.openInventory(ShopTempBlocksMenu.build(player));
-                }
-                case Constants.UI_SHOP_TOOLS_MENU_VALUE -> {
-                    player.openInventory(ShopToolsMenu.build(player));
-                }
+            switch(Objects.requireNonNull(value)) {
+                case Constants.UI_NEXUS_MAIN_MENU_VALUE -> player.openInventory(BeaconMainMenu.build(player));
+                case Constants.UI_SHOP_MAIN_MENU_VALUE -> player.openInventory(ShopMainMenu.build(player));
+                case Constants.UI_SHOP_GENS_MENU_VALUE -> player.openInventory(ShopGeneratorsMenu.build(player));
+                case Constants.UI_SHOP_DEFENCE_MENU_VALUE -> player.openInventory(ShopDefenseBlocksMenu.build(player));
+                case Constants.UI_SHOP_TEMP_BLOCKS_MENU_VALUE -> player.openInventory(ShopTempBlocksMenu.build(player));
+                case Constants.UI_SHOP_TOOLS_MENU_VALUE -> player.openInventory(ShopToolsMenu.build(player));
             }
         }
     }
@@ -106,7 +93,7 @@ public class UIListener implements Listener {
 
         synchronized (player) {
             int currentLevel = PlayerManager.getBeaconLevel(player);
-            int playerMoney = MoneyManager.getMoney(player);
+            int playerMoney = BankManager.getOnHandMoney(player);
 
             if (levelPrice > playerMoney) {
                 player.sendMessage(ChatColor.RED + "You don't have enough money to upgrade the Nexus");
@@ -115,7 +102,7 @@ public class UIListener implements Listener {
             }
 
             // Deduct money and upgrade
-            MoneyManager.setMoney(player, playerMoney - levelPrice);
+            BankManager.setOnHandMoney(player, playerMoney - levelPrice);
             PlayerManager.setBeaconLevel(player, currentLevel + 1);
 
             // Update UI and scoreboard
@@ -184,8 +171,8 @@ public class UIListener implements Listener {
             return;
         }
 
-        int price = container.get(priceKey, PersistentDataType.INTEGER);
-        int balance = MoneyManager.getMoney(player);
+        int price = container.getOrDefault(priceKey, PersistentDataType.INTEGER, 9999999);
+        int balance = BankManager.getOnHandMoney(player);
 
         if (balance < price) {
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
@@ -194,7 +181,7 @@ public class UIListener implements Listener {
         }
 
         // Removes money
-        MoneyManager.setMoney(player, balance - price);
+        BankManager.setOnHandMoney(player, balance - price);
 
         // Give the generator item (actual usable one, not shop display item)
         ItemStack generatorItem = clicked.clone();

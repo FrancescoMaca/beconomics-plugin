@@ -1,25 +1,22 @@
 package com.swondi.beaconomics.menus.shop;
 
 import com.swondi.beaconomics.Beaconomics;
-import com.swondi.beaconomics.managers.MoneyManager;
 import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.utils.Constants;
 import com.swondi.beaconomics.utils.UIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.conversations.Conversation;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-import org.yaml.snakeyaml.scanner.Constant;
 
 import java.util.List;
 
-import static com.swondi.beaconomics.managers.MoneyManager.getFormattedMoney;
+import static com.swondi.beaconomics.managers.BankManager.getFormattedMoney;
 
 public class ShopGeneratorsMenu {
 
