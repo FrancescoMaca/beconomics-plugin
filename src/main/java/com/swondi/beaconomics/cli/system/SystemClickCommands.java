@@ -4,18 +4,12 @@ import com.swondi.beaconomics.Beaconomics;
 import com.swondi.beaconomics.cli.data.TokenCommandManager;
 import com.swondi.beaconomics.managers.PlayerDataManager;
 import com.swondi.beaconomics.managers.TeamManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
-<<<<<<< HEAD
-=======
-import org.bukkit.scoreboard.Team;
->>>>>>> origin/TeamsDev
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -66,13 +60,10 @@ public class SystemClickCommands implements CommandExecutor, TabCompleter {
                 }
 
                 break;
-<<<<<<< HEAD
-=======
             case "team-disband":
                 TeamManager.disbandTeam(player);
                 player.sendMessage(ChatColor.WHITE + "Team '" + ChatColor.AQUA + args[2] + ChatColor.WHITE + "' disband!");
                 break;
->>>>>>> origin/TeamsDev
             case "team-create":
                 TeamManager.createTeam(player, args[2]);
                 player.sendMessage(ChatColor.WHITE + "Team '" + ChatColor.AQUA + args[2] + ChatColor.WHITE + "' created!");

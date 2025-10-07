@@ -8,6 +8,14 @@ commands:
   team:
     description: Handles all team related commands
     usage: /team [add|create|kick]
+  enderchest:
+    aliases:
+    - "ec"
+    description: Handles all enderchest related commands
+    usage: /enderchest
+  bank:
+    description: Handles all money related commands
+    usage: /bank [deposit|withdraw|pay|info|upgrade]
   kit:
     description: Handles all kit related commands
     usage: /kit [starter]
@@ -22,6 +30,9 @@ commands:
     usage: ""
 
 permissions:
+  beaconomics.enderchest.use:
+    description: Allows the player to use the Starter Kit
+    default: op
   beaconomics.kit.starter:
     description: Allows the player to use the Starter Kit
     default: true

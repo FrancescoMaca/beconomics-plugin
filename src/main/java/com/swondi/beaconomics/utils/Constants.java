@@ -5,6 +5,7 @@ import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class Constants {
     // UI inventories titles
@@ -19,6 +20,8 @@ public class Constants {
     public static final String SHOP_DEFENCE_BLOCKS_MENU_TITLE = ChatColor.BOLD + "Defence \uD83E\uDDF1";
     public static final String SHOP_TOOLS_MENU_TITLE = ChatColor.BOLD + "Tools ⚒";
     public static final String SHOP_GENERATORS_TITLE = ChatColor.BOLD + "Generators ⚡";
+
+    public static final String ENDER_CHEST_TITLE = ChatColor.BOLD + "Ender Chest \uD83D\uDC5C";
 
     public static final String BEACON_DATA_OWNER = "beacon_data_owner";
     public static final int BEACON_MAX_LEVEL = 5;
@@ -61,5 +64,15 @@ public class Constants {
         put(Material.PALE_OAK_DOOR, new DefenseBlockConstant(6, 1000));
     }};
 
+    public static final Map<String, Rank> RANKS = new HashMap<>() {{
+        put("Default", new Rank("Default", 0));
+        put("Spark", new Rank("Spark", 1));
+        put("Blaze", new Rank("Blaze", 2));
+        put("Ember", new Rank("Ember", 3));
+        put("Fire", new Rank("Fire", 4));
+        put("Inferno", new Rank("Inferno", 5));
+    }};
+
+    public record Rank(String name, int eChestLayers) {}
     public record DefenseBlockConstant(double fuelConsumption, int health) { }
 }

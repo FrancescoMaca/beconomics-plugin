@@ -1,6 +1,7 @@
 package com.swondi.beaconomics.managers;
 
 import com.swondi.beaconomics.Beaconomics;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -24,15 +25,30 @@ public class YamlManager {
         }
 
         this.file = new File(dataFolder, fileName);
+        File parentDir = this.file.getParentFile();
+
+        // Create the subdirectories if they don't exist
+        if (!parentDir.exists()) {
+            boolean created = parentDir.mkdirs();
+            if (!created) {
+                Bukkit.getLogger().severe("Failed to create the directory " + parentDir.getAbsolutePath());
+            }
+        }
 
         if (!this.file.exists()) {
             try {
-                this.file.createNewFile();
+                // Create the file if it doesn't exist
+                boolean created = this.file.createNewFile();
+
+                if (!created) {
+                    Bukkit.getLogger().severe("Failed to create the file " + this.file.getAbsolutePath());
+                }
             } catch (IOException e) {
                 throw new RuntimeException("Could not create " + fileName, e);
             }
         }
 
+        // Load the configuration
         this.config = YamlConfiguration.loadConfiguration(this.file);
     }
 
