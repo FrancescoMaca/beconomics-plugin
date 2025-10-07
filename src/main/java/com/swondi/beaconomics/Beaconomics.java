@@ -61,6 +61,7 @@ public final class Beaconomics extends JavaPlugin {
         new LuckPermsListener(luckPerms).register();
 
         // Setup commands
+        Objects.requireNonNull(getCommand("bugreport")).setExecutor(new BugReportCommand());
         Objects.requireNonNull(getCommand("sethome")).setExecutor(new SetHomeCommand());
         Objects.requireNonNull(getCommand("enderchest")).setExecutor(new EnderChestCommand());
         Objects.requireNonNull(getCommand("bank")).setExecutor(new BankCommand());

@@ -15,8 +15,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
 
-public class ShopTempBlocksMenu {
-
+public class ShopUtilityMenu {
     private static final int[] borders = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
     private static final ItemStack separator = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
@@ -32,7 +31,7 @@ public class ShopTempBlocksMenu {
     }
 
     public static Inventory build(Player player) {
-        Inventory inventory = Bukkit.createInventory(player, 54, Constants.SHOP_TEMP_BLOCKS_MENU_TITLE);
+        Inventory inventory = Bukkit.createInventory(player, 54, Constants.SHOP_UTILITY_BLOCKS_MENU_TITLE);
 
         for (int border : borders) {
             inventory.setItem(border, separator);
@@ -40,29 +39,22 @@ public class ShopTempBlocksMenu {
 
         inventory.setItem(0, UIHelper.createBackArrow(Constants.UI_SHOP_MAIN_MENU_VALUE));
 
-        Object[][] blockData = {
-            {Material.COBBLESTONE, 50},
-            {Material.SANDSTONE, 60},
-            {Material.STONE, 70},
-            {Material.SMOOTH_STONE, 80},
-            {Material.PRISMARINE, 100},
-            {Material.BRICKS, 120},
-            {Material.NETHER_BRICKS, 140},
-            {Material.QUARTZ_BLOCK, 150},
-            {Material.RED_SANDSTONE, 110},
-            {Material.PURPUR_BLOCK, 130},
+        Object[][] blockData = new Object[][] {
+            {Material.WATER_BUCKET, 1000},
+            {Material.HOPPER, 5000},
+            {Material.CHEST, 2500},
+            {Material.LADDER, 1500},
+            {Material.TORCH, 500},
         };
 
         int col = 1;
-        int row = 1; // second row
+        int row = 1;
         for (Object[] data : blockData) {
             Material block = (Material) data[0];
             int price = (int) data[1];
-
-            // Slot = row * 9 + col
             int blockSlot = row * 9 + col;
 
-            inventory.setItem(blockSlot, createTemporaryBlock(block, price));
+            inventory.setItem(blockSlot, createUtilityBlock(block, price));
 
             col++;
             if (col > 7) {
@@ -74,7 +66,7 @@ public class ShopTempBlocksMenu {
         return inventory;
     }
 
-    private static ItemStack createTemporaryBlock(Material material, int price) {
+    private static ItemStack createUtilityBlock(Material material, int price) {
         ItemStack item = new ItemStack(material);
         ItemMeta meta = item.getItemMeta();
 
@@ -85,11 +77,9 @@ public class ShopTempBlocksMenu {
         meta.setLore(null);
         NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
         NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
-        NamespacedKey tempKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_TEMPORARY_BLOCK_TAG);
 
         meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
         meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, price);
-        meta.getPersistentDataContainer().set(tempKey, PersistentDataType.BYTE, (byte)1);
 
         item.setItemMeta(meta);
 

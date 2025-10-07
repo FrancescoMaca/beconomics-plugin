@@ -5,6 +5,7 @@ import com.swondi.beaconomics.managers.YamlManager;
 import com.swondi.beaconomics.models.Generator;
 import com.swondi.beaconomics.models.Nexus;
 import com.swondi.beaconomics.tasks.GeneratorTask;
+import com.swondi.beaconomics.utils.EntityHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.TileState;
@@ -14,6 +15,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,11 +50,14 @@ public class GeneratorListener implements Listener {
         Player player = event.getPlayer();
         Block block = event.getBlockPlaced();
 
-
         if (!defaultDrops.containsKey(block.getType())) return;
 
         // This finds the block the user just placed
-//        ItemStack itemInHand = event.getItemInHand();
+        ItemStack itemInHand = event.getItemInHand();
+
+        if (!EntityHelper.isGenerator(itemInHand)) {
+            return;
+        }
 
         Nexus existingNexus = NexusManager.getNexus(player);
 
@@ -103,9 +108,5 @@ public class GeneratorListener implements Listener {
         Block block = event.getBlock();
         Player player = event.getPlayer();
 
-        if (!(block.getState() instanceof TileState state)) return;
-
-        String keys = state.getPersistentDataContainer().getKeys().stream().map(NamespacedKey::getKey).collect(Collectors.joining(", "));
-        event.getPlayer().sendMessage("You just hit a block with these keys: " + keys);
     }
 }

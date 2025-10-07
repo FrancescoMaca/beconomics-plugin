@@ -74,6 +74,7 @@ public class UIListener implements Listener {
                 case Constants.UI_NEXUS_MAIN_MENU_VALUE -> player.openInventory(BeaconMainMenu.build(player));
                 case Constants.UI_SHOP_MAIN_MENU_VALUE -> player.openInventory(ShopMainMenu.build(player));
                 case Constants.UI_SHOP_GENS_MENU_VALUE -> player.openInventory(ShopGeneratorsMenu.build(player));
+                case Constants.UI_SHOP_UTILITY_BLOCKS_MENU_VALUE -> player.openInventory(ShopUtilityMenu.build(player));
                 case Constants.UI_SHOP_DEFENCE_MENU_VALUE -> player.openInventory(ShopDefenseBlocksMenu.build(player));
                 case Constants.UI_SHOP_TEMP_BLOCKS_MENU_VALUE -> player.openInventory(ShopTempBlocksMenu.build(player));
                 case Constants.UI_SHOP_TOOLS_MENU_VALUE -> player.openInventory(ShopToolsMenu.build(player));

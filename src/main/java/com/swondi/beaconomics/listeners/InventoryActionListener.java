@@ -30,6 +30,7 @@ public class InventoryActionListener implements Listener {
         add(Constants.SHOP_GENERATORS_TITLE);
         add(Constants.SHOP_DEFENCE_BLOCKS_MENU_TITLE);
         add(Constants.SHOP_TOOLS_MENU_TITLE);
+        add(Constants.SHOP_UTILITY_BLOCKS_MENU_TITLE);
     }};
 
     /**

@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -17,13 +18,25 @@ import java.util.List;
 public class ShopToolsMenu {
 
     private static final int[] borders = new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53 };
+    private static final ItemStack separator = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
 
+    static {
+        ItemMeta meta = separator.getItemMeta();
+
+        if (meta != null) {
+            meta.setDisplayName(" ");
+            meta.setLore(List.of());
+            meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);;
+            separator.setItemMeta(meta);
+        }
+    }
     public static Inventory build(Player player) {
         Inventory inv = Bukkit.createInventory(player, 54, Constants.SHOP_TOOLS_MENU_TITLE);
 
         for (int border : borders) {
-            inv.setItem(border, new ItemStack(Material.GRAY_STAINED_GLASS_PANE));
+            inv.setItem(border, separator);
         }
+
         // Chainmail set (early-game)
         inv.setItem(10, createShopItem(Material.CHAINMAIL_HELMET, "§7Chainmail Helmet", 5000));
         inv.setItem(19, createShopItem(Material.CHAINMAIL_CHESTPLATE, "§7Chainmail Chestplate", 7000));

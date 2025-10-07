@@ -17,6 +17,7 @@ public class Constants {
 
     public static final String SHOP_MENU_TITLE = ChatColor.BOLD + "Shop";
     public static final String SHOP_TEMP_BLOCKS_MENU_TITLE = ChatColor.BOLD + "Blocks ⬛";
+    public static final String SHOP_UTILITY_BLOCKS_MENU_TITLE = ChatColor.BOLD + "Utilities 🛠";
     public static final String SHOP_DEFENCE_BLOCKS_MENU_TITLE = ChatColor.BOLD + "Defence \uD83E\uDDF1";
     public static final String SHOP_TOOLS_MENU_TITLE = ChatColor.BOLD + "Tools ⚒";
     public static final String SHOP_GENERATORS_TITLE = ChatColor.BOLD + "Generators ⚡";
@@ -45,6 +46,7 @@ public class Constants {
     public static final String UI_SHOP_BUY_VALUE = "shop_buy";
     public static final String UI_SHOP_MAIN_MENU_VALUE = "shop_main_menu";
     public static final String UI_SHOP_TEMP_BLOCKS_MENU_VALUE = "shop_temps_menu";
+    public static final String UI_SHOP_UTILITY_BLOCKS_MENU_VALUE = "shop_utility_menu";
     public static final String UI_SHOP_GENS_MENU_VALUE = "shop_gens_menu";
     public static final String UI_SHOP_DEFENCE_MENU_VALUE = "shop_defence_menu";
     public static final String UI_SHOP_TOOLS_MENU_VALUE = "shop_tools_menu";

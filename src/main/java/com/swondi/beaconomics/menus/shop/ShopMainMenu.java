@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -32,6 +33,11 @@ public class ShopMainMenu {
             int row = i / 9;
             int col = i % 9;
 
+            // Skip middle block
+            if (i == 4) {
+                continue;
+            }
+
             boolean isBorder = row == 0 || row == 2 || col == 0 || col == 8;
             if (isBorder) {
                 ItemStack pane = new ItemStack(gradient[gradientIndex]);
@@ -46,6 +52,17 @@ public class ShopMainMenu {
         }
 
         NamespacedKey uiActionKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_NAVIGATE_KEY);
+
+        ItemStack utilityBlocks = new ItemStack(Material.LADDER);
+        ItemMeta utilityBlocksMeta = utilityBlocks.getItemMeta();
+        utilityBlocksMeta.setDisplayName(ChatColor.DARK_PURPLE + "Utility Blocks");
+        utilityBlocksMeta.setLore(Arrays.asList(
+                ChatColor.GRAY + "Blocks to build your base",
+                ChatColor.GRAY + "and automate your farming.",
+                ChatColor.YELLOW + "A little expensive but worth your time."
+        ));
+        utilityBlocksMeta.getPersistentDataContainer().set(uiActionKey, PersistentDataType.STRING, Constants.UI_SHOP_UTILITY_BLOCKS_MENU_VALUE);
+        utilityBlocks.setItemMeta(utilityBlocksMeta);
 
         // Temporary Blocks
         ItemStack temporaryBlocksMenu = new ItemStack(Material.ANDESITE);
@@ -98,6 +115,7 @@ public class ShopMainMenu {
         toolsMenu.setItemMeta(toolsMeta);
 
         // Place menu items
+        inventory.setItem(4, utilityBlocks);
         inventory.setItem(10, temporaryBlocksMenu);
         inventory.setItem(12, generatorsMenu);
         inventory.setItem(14, defenceBlocksMenu);
