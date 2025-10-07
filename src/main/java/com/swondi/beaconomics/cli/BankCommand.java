@@ -1,6 +1,8 @@
 package com.swondi.beaconomics.cli;
 
+import com.swondi.beaconomics.cli.bank.DepositCommand;
 import com.swondi.beaconomics.cli.bank.InfoCommand;
+import com.swondi.beaconomics.cli.bank.WithdrawCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -32,8 +34,8 @@ public class BankCommand implements CommandExecutor, TabCompleter {
 
         switch (args[0]) {
             case "pay" -> player.sendMessage("You paid");
-            case "withdraw" -> player.sendMessage("You withdrawn");
-            case "deposit" -> player.sendMessage("You deposited");
+            case "withdraw" -> WithdrawCommand.run(commandSender, command, s, args);
+            case "deposit" -> DepositCommand.run(commandSender, command, s, args);
             case "info" -> InfoCommand.run(commandSender, command, s, args);
             default -> player.sendMessage(createHelpMessage());
         }

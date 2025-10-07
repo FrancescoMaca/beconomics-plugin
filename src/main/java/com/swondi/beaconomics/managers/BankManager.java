@@ -26,16 +26,6 @@ public class BankManager {
     }
 
     /**
-     * Formats a player's total money into a readable string (combining on-hand and bank).
-     * @param player the player
-     * @return a string containing the formatted money (i.e. 7.12B, 1.23M, 12.22k)
-     */
-    public static String getFormattedMoney(Player player) {
-        int totalMoney = getOnHandMoney(player) + getBankMoney(player);
-        return getFormattedMoney(totalMoney);
-    }
-
-    /**
      * Formats a money amount into a readable string
      * @param value the amount of money
      * @return a string containing the formatted money (i.e. 7.12B, 1.23M, 12.22k)
@@ -74,7 +64,7 @@ public class BankManager {
      * @param amount the amount of new on-hand money of the player
      */
     public static void setOnHandMoney(Player player, int amount) {
-        String path = player.getUniqueId().toString() + ".onhand";
+        String path = player.getUniqueId() + ".onhand";
         yaml.getConfiguration().set(path, amount);
         yaml.save();
     }
@@ -85,7 +75,7 @@ public class BankManager {
      * @param amount the amount of new bank money of the player
      */
     public static void setBankMoney(Player player, int amount) {
-        String path = player.getUniqueId().toString() + ".bank.amount";
+        String path = player.getUniqueId() + ".bank.amount";
         yaml.getConfiguration().set(path, amount);
         yaml.save();
     }

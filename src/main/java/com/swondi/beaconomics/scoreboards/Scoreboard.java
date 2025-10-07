@@ -14,7 +14,8 @@ public class Scoreboard {
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         // Show formatted money in the entry instead of the numeric score
-        String formatted = "§aMoney: " + BankManager.getFormattedMoney(player) + "    ";
+        int amount = BankManager.getOnHandMoney(player);
+        String formatted = "§aMoney: " + BankManager.getFormattedMoney(amount) + "    ";
         objective.getScore(formatted).setScore(0);
 
         player.setScoreboard(board);
@@ -29,8 +30,10 @@ public class Scoreboard {
                 board.resetScores(entry);
             }
 
+            int amount = BankManager.getOnHandMoney(player);
+
             // Add updated entry
-            String formatted = "§aMoney: " + BankManager.getFormattedMoney(player);
+            String formatted = "§aMoney: " + BankManager.getFormattedMoney(amount);
             objective.getScore(formatted).setScore(1);
         }
     }
