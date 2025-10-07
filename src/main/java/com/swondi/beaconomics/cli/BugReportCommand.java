@@ -17,7 +17,7 @@ import java.util.List;
 
 public class BugReportCommand implements CommandExecutor, TabCompleter {
 
-    private final List<String> categories = List.of("movement", "nexus-related", "generator-related", "other");
+    private final List<String> categories = List.of("permissions", "ranks", "nexus", "generators", "other");
 
     @Override
     public boolean onCommand(

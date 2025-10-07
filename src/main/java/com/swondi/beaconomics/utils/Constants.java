@@ -35,6 +35,7 @@ public class Constants {
 
     // Players keys for persistent values
     public static final String PLAYER_PERSIST_BEACON_LEVEL_KEY = "data_player_beacon_level";
+    public static final String PLAYER_GENERATORS_SLOTS_KEY = "data_player_generators_slots";
     public static final String PDC_LOCKED_CHEST_KIT = "kit_locked_by";
 
     // NBT tag keys for callback handling

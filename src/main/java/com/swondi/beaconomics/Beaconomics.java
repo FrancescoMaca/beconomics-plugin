@@ -43,6 +43,7 @@ public final class Beaconomics extends JavaPlugin {
         TemporaryBlocksManager.cleanupTemporaryBlocks().runTaskTimer(this, 1, 20);
 
         // Binds listeners
+        getServer().getPluginManager().registerEvents(new SpawnProtection(), this);
         getServer().getPluginManager().registerEvents(new EnderChestListener(), this);
         getServer().getPluginManager().registerEvents(new ConnectionEvents(), this);
         getServer().getPluginManager().registerEvents(new DefenseBlockListener(), this);

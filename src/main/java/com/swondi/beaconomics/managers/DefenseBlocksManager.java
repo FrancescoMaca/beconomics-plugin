@@ -18,13 +18,13 @@ public class DefenseBlocksManager {
 
         defenses.put(block.getLocation(), defenseBlock);
 
-        Bukkit.broadcastMessage("Defenses amount: " +  defenses.size());
+//        Bukkit.broadcastMessage("Defenses amount: " +  defenses.size());
     }
 
     public static void removeTemporaryBlock(Location location) {
         defenses.remove(location);
 
-        Bukkit.broadcastMessage("Defenses amount: " +  defenses.size());
+//        Bukkit.broadcastMessage("Defenses amount: " +  defenses.size());
     }
 
     public static void load() {

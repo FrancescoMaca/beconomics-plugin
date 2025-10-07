@@ -21,33 +21,33 @@ public class DefenseBlockListener implements Listener {
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        DefenseBlocksManager.removeTemporaryBlock(event.getBlock().getLocation());
+//        DefenseBlocksManager.removeTemporaryBlock(event.getBlock().getLocation());
     }
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        Player player = event.getPlayer();
-        Block block = event.getBlock();
-        ItemStack item = event.getItemInHand();
-        Nexus nexus = NexusManager.getNexus(player);
-
-        if (nexus == null) {
-            player.sendMessage(ChatColor.RED + "You cannot place defenses without a beacon!");
-            return;
-        }
-
-        Chunk placedChunk = block.getChunk();
-        Chunk nexusChunk = nexus.getLocation().getChunk();
-        if (placedChunk.getX() != nexusChunk.getX() || placedChunk.getZ() != nexusChunk.getZ()) {
-            player.sendMessage(ChatColor.RED + "You cannot place defenses outside the Nexus chunk!");
-            return;
-        }
-
-        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
-        NamespacedKey defenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
-
-        if (!pdc.has(defenseKey)) return;
-
-        DefenseBlocksManager.addTemporaryBlock(block, nexus);
+//        Player player = event.getPlayer();
+//        Block block = event.getBlock();
+//        ItemStack item = event.getItemInHand();
+//        Nexus nexus = NexusManager.getNexus(player);
+//
+//        if (nexus == null) {
+//            player.sendMessage(ChatColor.RED + "You cannot place defenses without a beacon!");
+//            return;
+//        }
+//
+//        Chunk placedChunk = block.getChunk();
+//        Chunk nexusChunk = nexus.getLocation().getChunk();
+//        if (placedChunk.getX() != nexusChunk.getX() || placedChunk.getZ() != nexusChunk.getZ()) {
+//            player.sendMessage(ChatColor.RED + "You cannot place defenses outside the Nexus chunk!");
+//            return;
+//        }
+//
+//        PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
+//        NamespacedKey defenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
+//
+//        if (!pdc.has(defenseKey)) return;
+//
+//        DefenseBlocksManager.addTemporaryBlock(block, nexus);
     }
 }
