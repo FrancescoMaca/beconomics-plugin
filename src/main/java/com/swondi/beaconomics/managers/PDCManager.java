@@ -19,12 +19,6 @@ public class PDCManager {
     private static final NamespacedKey ownerKey = new NamespacedKey(Beaconomics.getInstance(), Constants.BEACON_DATA_OWNER);
 
 
-
-
-
-
-
-
     /** Set owner UUID on a beacon block */
     public static void setBeaconOwner(Block block, Player player) {
         if (block == null || block.getType() != org.bukkit.Material.BEACON) return;

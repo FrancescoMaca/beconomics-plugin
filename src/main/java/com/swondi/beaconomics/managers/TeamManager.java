@@ -15,6 +15,7 @@ public class TeamManager {
     public static void createTeam(Player owner, String teamName) {
         String ownerId = owner.getUniqueId().toString();
 
+        //FIXME useless even if triggered action is executed
         if(getTeamOf(owner) != null){
             owner.sendMessage("You are already part of a team!");
             return;

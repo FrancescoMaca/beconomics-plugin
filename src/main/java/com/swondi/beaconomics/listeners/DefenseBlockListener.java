@@ -7,14 +7,12 @@ import com.swondi.beaconomics.models.Nexus;
 import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataContainer;
@@ -51,13 +49,5 @@ public class DefenseBlockListener implements Listener {
         if (!pdc.has(defenseKey)) return;
 
         DefenseBlocksManager.addTemporaryBlock(block, nexus);
-    }
-
-    @EventHandler
-    public void onBlockDamage(BlockDamageEvent event) {
-       Player player = event.getPlayer();
-       Block block = event.getBlock();
-
-       player.sendMessage("You are currently hitting " + block.getType().name());
     }
 }

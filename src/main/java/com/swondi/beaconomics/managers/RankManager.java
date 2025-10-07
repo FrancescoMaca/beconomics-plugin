@@ -2,7 +2,6 @@ package com.swondi.beaconomics.managers;
 
 import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

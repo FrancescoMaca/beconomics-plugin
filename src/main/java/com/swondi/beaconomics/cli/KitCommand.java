@@ -102,7 +102,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             );
 
             DropCleanupTask.addChest(kit);
-        });
+        }, kitName);
     }
 
     @Override

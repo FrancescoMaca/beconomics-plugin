@@ -2,7 +2,9 @@ package com.swondi.beaconomics.cli;
 
 import com.swondi.beaconomics.cli.bank.DepositCommand;
 import com.swondi.beaconomics.cli.bank.InfoCommand;
+import com.swondi.beaconomics.cli.bank.PayCommand;
 import com.swondi.beaconomics.cli.bank.WithdrawCommand;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,7 +13,10 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BankCommand implements CommandExecutor, TabCompleter {
     private static final List<String> SUB_CMDS = List.of("pay", "withdraw", "deposit", "info");
@@ -28,12 +33,13 @@ public class BankCommand implements CommandExecutor, TabCompleter {
         }
 
         if (args.length == 0) {
+            InfoCommand.run(commandSender, command, s, args);
             player.sendMessage(createHelpMessage());
             return true;
         }
 
         switch (args[0]) {
-            case "pay" -> player.sendMessage("You paid");
+            case "pay" -> PayCommand.run(commandSender, command, s, args);
             case "withdraw" -> WithdrawCommand.run(commandSender, command, s, args);
             case "deposit" -> DepositCommand.run(commandSender, command, s, args);
             case "info" -> InfoCommand.run(commandSender, command, s, args);
@@ -55,7 +61,21 @@ public class BankCommand implements CommandExecutor, TabCompleter {
         }
 
         if (strings.length == 1) {
-            return SUB_CMDS.stream().filter((sugg) -> sugg.startsWith(strings[0])).toList();
+            return SUB_CMDS.stream().filter((suggestion) -> suggestion.startsWith(strings[0])).toList();
+        }
+
+        if (strings.length == 2) {
+            if (strings[0].equals("deposit") || strings[0].equals("withdraw")) {
+                return List.of("[amount]");
+            }
+
+            if (strings[0].equals("info")) return List.of();
+
+            return Bukkit.getOnlinePlayers().stream().map(Player::getName).toList();
+        }
+
+        if (strings.length == 3 && strings[0].equals("pay")) {
+            return List.of("[amount]");
         }
 
         return List.of();

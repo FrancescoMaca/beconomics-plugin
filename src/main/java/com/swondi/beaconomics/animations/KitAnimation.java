@@ -7,7 +7,7 @@ import org.bukkit.entity.ArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class KitAnimation {
-    public static void start(Location targetLocation, Color color, Runnable onFinish) {
+    public static void start(Location targetLocation, Color color, Runnable onFinish, String kitName) {
         targetLocation.setX(Math.floor(targetLocation.getX()) + 0.5);
         targetLocation.setZ(Math.floor(targetLocation.getZ()) + 0.5);
 
@@ -17,7 +17,7 @@ public class KitAnimation {
         startLocation.setY(255);
 
         // Spawn a fake entity (armor stand) to represent the chest
-        ArmorStand stand = world.spawn(startLocation, ArmorStand.class, a -> {
+        ArmorStand fallingArmorStand = world.spawn(startLocation, ArmorStand.class, a -> {
             a.setGravity(false);
             a.setVisible(false);
             a.setMarker(true);
@@ -25,36 +25,47 @@ public class KitAnimation {
             a.setArms(false);
         });
 
-        KitManager.addFallingArmorStand(stand);
+        KitManager.addFallingArmorStand(targetLocation, fallingArmorStand);
 
         new BukkitRunnable() {
             private double y = startLocation.getY();
 
             @Override
             public void run() {
-                y -= Math.min(Math.max(0.1, (stand.getLocation().getY() - targetLocation.getY()) * 0.2), 1);
+                y -= Math.min(Math.max(0.1, (fallingArmorStand.getLocation().getY() - targetLocation.getY()) * 0.2), 1);
 
                 if (y <= targetLocation.getY()) {
                     // Place the real chest
-                    world.spawnParticle(Particle.ASH, stand.getLocation(), 40, 2, 1, 2, 0.1);
+                    world.spawnParticle(Particle.ASH, fallingArmorStand.getLocation(), 40, 2, 1, 2, 0.1);
                     world.getBlockAt(targetLocation).setType(Material.CHEST);
 
-                    world.playSound(stand.getLocation(), Sound.BLOCK_ANVIL_HIT, 1, 1);
+                    world.playSound(fallingArmorStand.getLocation(), Sound.BLOCK_ANVIL_HIT, 1, 1);
+
+                    // Spawn a nametag ArmorStand above the chest
+                    ArmorStand nameTagArmorStand = world.spawn(targetLocation.clone().add(0, 1, 0), ArmorStand.class, a -> {
+                        a.setCustomName(ChatColor.GOLD + kitName);
+                        a.setCustomNameVisible(true);
+                        a.setVisible(false);
+                        a.setGravity(false);
+                        a.setMarker(true);
+                    });
 
                     onFinish.run();
-                    KitManager.removeFallingArmorStand(stand);
-                    stand.remove();
+                    KitManager.addFallingArmorStand(targetLocation, nameTagArmorStand);
+                    KitManager.removeFallingArmorStand(targetLocation, fallingArmorStand);
+
+                    fallingArmorStand.remove();
                     cancel();
                     return;
                 }
 
                 // Move the armor stand down
-                Location loc = stand.getLocation();
-                world.playSound(stand.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
+                Location loc = fallingArmorStand.getLocation();
+                world.playSound(fallingArmorStand.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_BLAST, 1, 1);
 
                 world.spawnParticle(Particle.FLAME, loc, 30, 0, 0.01, 0, 0.01);
                 loc.setY(y);
-                stand.teleport(loc);
+                fallingArmorStand.teleport(loc);
 
                 Particle.DustOptions redSpark = new Particle.DustOptions(color, 2);
                 world.spawnParticle(Particle.DUST, targetLocation, 7, 0.1, 0.7, 0.1, 0.01, redSpark);
