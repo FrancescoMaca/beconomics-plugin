@@ -114,10 +114,10 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(
-            @Nonnull CommandSender commandSender,
-            @Nonnull Command command,
-            @Nonnull String label,
-            @Nonnull String[] args
+        @Nonnull CommandSender commandSender,
+        @Nonnull Command command,
+        @Nonnull String label,
+        @Nonnull String[] args
     ) {
         if (args.length == 1) {
             return CommandHelper.getSuggestions(args[0], SUB_CMDS);

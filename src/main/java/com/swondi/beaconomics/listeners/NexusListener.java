@@ -1,6 +1,6 @@
 package com.swondi.beaconomics.listeners;
 
-import com.swondi.beaconomics.helpers.NexusHelper;
+import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.menus.nexus.BeaconMainMenu;
 import com.swondi.beaconomics.models.Nexus;
@@ -38,7 +38,7 @@ public class NexusListener implements Listener {
 
         // Otherwise overrides the default drop with a custom one
         event.setDropItems(false);
-        ItemStack drop = NexusHelper.createNexusItem();
+        ItemStack drop = ItemStackCreator.createNexus();
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_GLASS_BREAK, 0.5f, 1.7f);
 
         block.getLocation().getWorld().dropItemNaturally(block.getLocation(), drop);
