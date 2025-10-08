@@ -5,10 +5,14 @@ import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CombatManager {
-    private static final Map<UUID, Long> inCombat = new HashMap<>();
+
+    public static final Map<UUID, Long> inCombat = new HashMap<>();
+    public static final Set<UUID> toKillOnLogin = ConcurrentHashMap.newKeySet();
 
     public static void enterCombat(Player player) {
         inCombat.put(player.getUniqueId(), System.currentTimeMillis());

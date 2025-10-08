@@ -50,6 +50,8 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UIListener(), this);
         getServer().getPluginManager().registerEvents(new DebugBeaconLevelListener(), this);
         getServer().getPluginManager().registerEvents(new CandleSellListener(), this);
+        getServer().getPluginManager().registerEvents(new CombatListener(), this);
+        getServer().getPluginManager().registerEvents(new CombatLogoutListener(), this);
 
         // Binds luckperms API listener
 
