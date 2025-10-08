@@ -80,6 +80,19 @@ public class Constants {
         put(Material.PALE_OAK_DOOR, new DefenseBlockData(6, 1000));
     }};
 
+    public static final Map<Material, TemporaryBlockData> DATA_TEMPORARY = new HashMap<>() {{
+        put(Material.COBBLESTONE, new TemporaryBlockData(500));
+        put(Material.SANDSTONE, new TemporaryBlockData(600));
+        put(Material.STONE, new TemporaryBlockData(700));
+        put(Material.SMOOTH_STONE, new TemporaryBlockData(800));
+        put(Material.PRISMARINE, new TemporaryBlockData(1000));
+        put(Material.BRICKS, new TemporaryBlockData(1200));
+        put(Material.NETHER_BRICKS, new TemporaryBlockData(1400));
+        put(Material.QUARTZ_BLOCK, new TemporaryBlockData(1500));
+        put(Material.RED_SANDSTONE, new TemporaryBlockData(1100));
+        put(Material.PURPUR_BLOCK, new TemporaryBlockData(1300));
+    }};
+
     public static final Map<String, RankData> RANKS = new HashMap<>() {{
         put("Default", new RankData("Default", 0));
         put("Spark", new RankData("Spark", 1));
@@ -113,8 +126,9 @@ public class Constants {
         put(Material.BROWN_GLAZED_TERRACOTTA, new GeneratorData(35000000, 140, "Brown Generator", "Brown Candle", Material.BROWN_CANDLE, ChatColor.GOLD));
     }};
 
+    public record TemporaryBlockData(int price) {}
     public record KitData(int cooldown) {}
     public record GeneratorData(int price, int rate, String name, String dropName, Material dropType, ChatColor color) {}
     public record RankData(String name, int eChestLayers) {}
-    public record DefenseBlockData(double fuelConsumption, int health) { }
+    public record DefenseBlockData(double fuelConsumption, int health) {}
 }

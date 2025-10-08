@@ -1,9 +1,11 @@
 package com.swondi.beaconomics.menus.shop;
 
 import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.utils.Constants;
 import com.swondi.beaconomics.utils.UIHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -14,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class ShopTempBlocksMenu {
 
@@ -40,30 +44,11 @@ public class ShopTempBlocksMenu {
 
         inventory.setItem(0, UIHelper.createBackArrow(Constants.UI_SHOP_MAIN_MENU_VALUE));
 
-        Object[][] blockData = {
-            {Material.COBBLESTONE, 50},
-            {Material.SANDSTONE, 60},
-            {Material.STONE, 70},
-            {Material.SMOOTH_STONE, 80},
-            {Material.PRISMARINE, 100},
-            {Material.BRICKS, 120},
-            {Material.NETHER_BRICKS, 140},
-            {Material.QUARTZ_BLOCK, 150},
-            {Material.RED_SANDSTONE, 110},
-            {Material.PURPUR_BLOCK, 130},
-        };
-
         int col = 1;
-        int row = 1; // second row
-        for (Object[] data : blockData) {
-            Material block = (Material) data[0];
-            int price = (int) data[1];
-
-            // Slot = row * 9 + col
+        int row = 1;
+        for (Map.Entry<Material, Constants.TemporaryBlockData> e : Constants.DATA_TEMPORARY.entrySet()) {
             int blockSlot = row * 9 + col;
-
-            inventory.setItem(blockSlot, createTemporaryBlock(block, price));
-
+            inventory.setItem(blockSlot, ItemStackCreator.createTemporaryBlock(e.getKey(), false));
             col++;
             if (col > 7) {
                 col = 1;
@@ -72,27 +57,5 @@ public class ShopTempBlocksMenu {
         }
 
         return inventory;
-    }
-
-    private static ItemStack createTemporaryBlock(Material material, int price) {
-        ItemStack item = new ItemStack(material);
-        ItemMeta meta = item.getItemMeta();
-
-        if (meta == null) {
-            return item;
-        }
-
-        meta.setLore(null);
-        NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
-        NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
-        NamespacedKey tempKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_TEMPORARY_BLOCK_TAG);
-
-        meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
-        meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, price);
-        meta.getPersistentDataContainer().set(tempKey, PersistentDataType.BYTE, (byte)1);
-
-        item.setItemMeta(meta);
-
-        return item;
     }
 }
