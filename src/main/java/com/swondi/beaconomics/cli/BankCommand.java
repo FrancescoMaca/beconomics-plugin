@@ -4,6 +4,7 @@ import com.swondi.beaconomics.cli.bank.DepositCommand;
 import com.swondi.beaconomics.cli.bank.InfoCommand;
 import com.swondi.beaconomics.cli.bank.PayCommand;
 import com.swondi.beaconomics.cli.bank.WithdrawCommand;
+import com.swondi.beaconomics.managers.CombatManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,6 +36,11 @@ public class BankCommand implements CommandExecutor, TabCompleter {
         if (args.length == 0) {
             InfoCommand.run(commandSender, command, s, args);
             player.sendMessage(createHelpMessage());
+            return true;
+        }
+        //FIXME may be change to allow /bank info
+        if (CombatManager.isInCombat(player)) {
+            player.sendMessage(ChatColor.RED +"You cannot use this command while in combat!");
             return true;
         }
 

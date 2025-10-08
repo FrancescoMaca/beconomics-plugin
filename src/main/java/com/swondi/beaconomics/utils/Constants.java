@@ -43,6 +43,9 @@ public class Constants {
     public static final String PLAYER_INFERNO_KIT_COOLDOWN_KEY = "data_player_inferno_kit_cooldown";
     public static final String PDC_LOCKED_CHEST_KIT = "kit_locked_by";
 
+    // Player combat duration in milliseconds
+    public static final long PLAYER_COMBAT_DURATION = 10000;
+
     // NBT tag keys for callback handling
     public static final String UI_NAVIGATE_KEY = "navigate_key";
     public static final String UI_ACTION_KEY = "action_key";
@@ -68,16 +71,16 @@ public class Constants {
     }};
 
     public static final Map<Material, DefenseBlockData> DATA_DEFENSE_BLOCKS = new HashMap<>() {{
-        put(Material.MUD_BRICKS, new DefenseBlockData(1, 50));
-        put(Material.SANDSTONE, new DefenseBlockData(2, 150));
-        put(Material.STONE_BRICKS, new DefenseBlockData(3, 250));
-        put(Material.POLISHED_BLACKSTONE_BRICKS, new DefenseBlockData(4, 500));
-        put(Material.OBSIDIAN, new DefenseBlockData(6, 1000));
-        put(Material.OAK_DOOR, new DefenseBlockData(1, 50));
-        put(Material.BIRCH_DOOR, new DefenseBlockData(2, 150));
-        put(Material.SPRUCE_DOOR, new DefenseBlockData(3, 250));
-        put(Material.CRIMSON_DOOR, new DefenseBlockData(4, 500));
-        put(Material.PALE_OAK_DOOR, new DefenseBlockData(6, 1000));
+        put(Material.MUD_BRICKS, new DefenseBlockData(1, 50, 1000));
+        put(Material.SANDSTONE, new DefenseBlockData(2, 150, 5000));
+        put(Material.STONE_BRICKS, new DefenseBlockData(3, 250, 10000));
+        put(Material.POLISHED_BLACKSTONE_BRICKS, new DefenseBlockData(4, 500, 20000));
+        put(Material.OBSIDIAN, new DefenseBlockData(6, 1000, 30000));
+        put(Material.OAK_DOOR, new DefenseBlockData(1, 50, 1000));
+        put(Material.BIRCH_DOOR, new DefenseBlockData(2, 150, 5000));
+        put(Material.SPRUCE_DOOR, new DefenseBlockData(3, 250, 10000));
+        put(Material.CRIMSON_DOOR, new DefenseBlockData(4, 500, 20000));
+        put(Material.PALE_OAK_DOOR, new DefenseBlockData(6, 1000, 30000));
     }};
 
     public static final Map<Material, TemporaryBlockData> DATA_TEMPORARY = new HashMap<>() {{
@@ -130,5 +133,5 @@ public class Constants {
     public record KitData(int cooldown) {}
     public record GeneratorData(int price, int rate, String name, String dropName, Material dropType, ChatColor color) {}
     public record RankData(String name, int eChestLayers) {}
-    public record DefenseBlockData(double fuelConsumption, int health) {}
+    public record DefenseBlockData(double fuelConsumption, int health, int price) { }
 }

@@ -22,6 +22,10 @@ commands:
   bank:
     description: Handles all money related commands
     usage: /bank [deposit|withdraw|pay|info|upgrade]
+  balancetop:
+    description: Top n player balance
+    usage: /balancetop
+    aliases: [baltop]
   kits:
     description: Shows all available kits and their cooldown
     usage: /kits
@@ -34,6 +38,9 @@ commands:
   sethome:
     description: Handles player possibility to set a home
     usage: /sethome
+  spawn:
+    description: Command for teleport the player to the spawn
+    usage: /spawn
   nexus:
     aliases:
     - "base"

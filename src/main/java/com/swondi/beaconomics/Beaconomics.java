@@ -6,13 +6,11 @@ import com.swondi.beaconomics.data.YamlVerifier;
 import com.swondi.beaconomics.debug.listeners.DebugBeaconLevelListener;
 import com.swondi.beaconomics.events.ConnectionEvents;
 import com.swondi.beaconomics.listeners.*;
-import com.swondi.beaconomics.managers.KitManager;
-import com.swondi.beaconomics.managers.NexusManager;
-import com.swondi.beaconomics.managers.RankManager;
-import com.swondi.beaconomics.managers.TemporaryBlocksManager;
+import com.swondi.beaconomics.managers.*;
 import com.swondi.beaconomics.tasks.BackupTask;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
 import com.swondi.beaconomics.tasks.GeneratorTask;
+import com.swondi.beaconomics.utils.Constants;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -52,10 +50,10 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new UIListener(), this);
         getServer().getPluginManager().registerEvents(new DebugBeaconLevelListener(), this);
         getServer().getPluginManager().registerEvents(new CandleSellListener(), this);
+        getServer().getPluginManager().registerEvents(new CombatListener(), this);
+        getServer().getPluginManager().registerEvents(new CombatLogoutListener(), this);
 
         // Binds luckperms API listener
-        LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        new LuckPermsListener(luckPerms).register();
 
         // Setup commands
         Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
@@ -69,6 +67,8 @@ public final class Beaconomics extends JavaPlugin {
         Objects.requireNonNull(getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(getCommand("shop")).setExecutor(new ShopCommand());
         Objects.requireNonNull(getCommand("system")).setExecutor(new SystemClickCommands());
+        Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
+        Objects.requireNonNull(getCommand("balancetop")).setExecutor(new BalanceTopCommand());
     }
 
     @Override
@@ -76,6 +76,7 @@ public final class Beaconomics extends JavaPlugin {
         KitManager.removeAllFallingArmorStands();
         NexusManager.backup();
         TemporaryBlocksManager.backup();
+        DefenseBlocksManager.backup();
     }
 
     public static Beaconomics getInstance() {

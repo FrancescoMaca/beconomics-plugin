@@ -1,13 +1,12 @@
 package com.swondi.beaconomics.menus.shop;
 
 import com.swondi.beaconomics.Beaconomics;
-import com.swondi.beaconomics.models.DefenseBlock;
+import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.utils.Constants;
 import com.swondi.beaconomics.utils.UIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -46,16 +45,16 @@ public class ShopDefenseBlocksMenu {
         // Set the back button
         inventory.setItem(0, UIHelper.createBackArrow(Constants.UI_SHOP_MAIN_MENU_VALUE));
 
-        inventory.setItem(10, createDefenseBlockItem(Material.MUD_BRICKS, 50, 1,1000));
-        inventory.setItem(11, createDefenseBlockItem(Material.SANDSTONE, 150, 2, 5000));
-        inventory.setItem(12, createDefenseBlockItem(Material.STONE_BRICKS, 250, 3, 10000));
-        inventory.setItem(13, createDefenseBlockItem(Material.POLISHED_BLACKSTONE_BRICKS, 500, 4, 20000));
-        inventory.setItem(14, createDefenseBlockItem(Material.OBSIDIAN, 1000, 6, 30000));
-        inventory.setItem(19, createDefenseBlockItem(Material.OAK_DOOR, 50, 1, 1000));
-        inventory.setItem(20, createDefenseBlockItem(Material.BIRCH_DOOR, 150, 2, 5000));
-        inventory.setItem(21, createDefenseBlockItem(Material.SPRUCE_DOOR, 250, 3, 10000));
-        inventory.setItem(22, createDefenseBlockItem(Material.CRIMSON_DOOR, 500,4,  20000));
-        inventory.setItem(23, createDefenseBlockItem(Material.PALE_OAK_DOOR, 1000, 6, 30000));
+        inventory.setItem(10, ItemStackCreator.createDefenseBlock(Material.MUD_BRICKS, false));
+        inventory.setItem(11, ItemStackCreator.createDefenseBlock(Material.SANDSTONE, false));
+        inventory.setItem(12, ItemStackCreator.createDefenseBlock(Material.STONE_BRICKS, false));
+        inventory.setItem(13, ItemStackCreator.createDefenseBlock(Material.POLISHED_BLACKSTONE_BRICKS, false));
+        inventory.setItem(14, ItemStackCreator.createDefenseBlock(Material.OBSIDIAN, false));
+        inventory.setItem(19, ItemStackCreator.createDefenseBlock(Material.OAK_DOOR, false));
+        inventory.setItem(20, ItemStackCreator.createDefenseBlock(Material.BIRCH_DOOR, false));
+        inventory.setItem(21, ItemStackCreator.createDefenseBlock(Material.SPRUCE_DOOR, false));
+        inventory.setItem(22, ItemStackCreator.createDefenseBlock(Material.CRIMSON_DOOR, false));
+        inventory.setItem(23, ItemStackCreator.createDefenseBlock(Material.PALE_OAK_DOOR, false));
 
         return inventory;
     }
