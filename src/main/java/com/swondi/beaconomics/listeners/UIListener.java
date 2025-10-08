@@ -182,11 +182,15 @@ public class UIListener implements Listener {
         }
 
         NamespacedKey isGenKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_GENERATOR_TAG);
+        NamespacedKey isDefenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
 
         ItemStack item;
 
         if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isGenKey)) {
-            item = handleBuyGenerator(event);
+            item = ItemStackCreator.createGenerator(event.getCurrentItem().getType(), true);
+        }
+        else if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isDefenseKey)) {
+            item = ItemStackCreator.createDefenseBlock(event.getCurrentItem().getType(), true);
         }
         else {
             item = ItemStackCreator.createTemporaryBlock(event.getCurrentItem().getType(), true);
@@ -204,17 +208,5 @@ public class UIListener implements Listener {
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
         player.getInventory().addItem(item);
         player.sendMessage("§aYou purchased a " + item.getItemMeta().getDisplayName() + "§a for §6$" + price);
-    }
-
-    private static ItemStack handleBuyGenerator(InventoryClickEvent event) {
-        // Give the generator item (actual usable one, not shop display item)
-        ItemStack generatorItem = ItemStackCreator.createGenerator(event.getCurrentItem().getType(), true);
-
-        if (generatorItem == null) {
-            event.getWhoClicked().sendMessage(ChatColor.RED + "There was an error while buying this item. Try again later.");
-            return null;
-        }
-
-        return generatorItem;
     }
 }

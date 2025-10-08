@@ -5,6 +5,9 @@ api-version: '1.21'
 authors: [ Francesco Macaluso ]
 website: https://swondi.com
 commands:
+  spawn:
+    description: Teleports to spawn
+    usage: /spawn
   bugreport:
     description: Handles all bug-report related commands
     usage: /bugreport [category] [description]

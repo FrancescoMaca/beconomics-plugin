@@ -126,4 +126,8 @@ public class ItemStackCreator {
 
         return item;
     }
+
+    public static ItemStack createDefenseBlock(Material type, boolean isDrop) {
+        return new ItemStack(type);
+    }
 }
