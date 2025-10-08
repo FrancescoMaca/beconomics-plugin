@@ -64,6 +64,8 @@ public final class Beaconomics extends JavaPlugin {
         Objects.requireNonNull(getCommand("kit")).setExecutor(new KitCommand());
         Objects.requireNonNull(getCommand("shop")).setExecutor(new ShopCommand());
         Objects.requireNonNull(getCommand("system")).setExecutor(new SystemClickCommands());
+        Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
+        Objects.requireNonNull(getCommand("balancetop")).setExecutor(new BalanceTopCommand());
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.swondi.beaconomics.cli;
 
+import com.swondi.beaconomics.managers.CombatManager;
 import com.swondi.beaconomics.managers.HomesManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,6 +18,11 @@ public class SetHomeCommand implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage(ChatColor.RED + "Only player can use this command.");
+            return true;
+        }
+
+        if (CombatManager.isInCombat(player)) {
+            player.sendMessage(ChatColor.RED +"You cannot use this command while in combat!");
             return true;
         }
 

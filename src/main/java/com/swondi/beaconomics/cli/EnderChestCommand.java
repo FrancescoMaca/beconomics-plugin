@@ -1,5 +1,6 @@
 package com.swondi.beaconomics.cli;
 
+import com.swondi.beaconomics.managers.CombatManager;
 import com.swondi.beaconomics.managers.RankManager;
 import com.swondi.beaconomics.menus.enderchest.EnderChestInventory;
 import com.swondi.beaconomics.utils.Constants;
@@ -35,6 +36,10 @@ public class EnderChestCommand implements CommandExecutor, TabCompleter {
             return true;
         }
 
+        if (CombatManager.isInCombat(player)) {
+            player.sendMessage(ChatColor.RED +"You cannot use this command while in combat!");
+            return true;
+        }
 
         player.openInventory(echest);
 

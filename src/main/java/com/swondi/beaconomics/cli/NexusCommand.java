@@ -1,7 +1,9 @@
 package com.swondi.beaconomics.cli;
 
+import com.swondi.beaconomics.managers.CombatManager;
 import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.models.Nexus;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -21,6 +23,11 @@ public class NexusCommand implements CommandExecutor, TabCompleter {
         @Nonnull String[] strings
     ) {
         if (!(commandSender instanceof Player player)) return true;
+
+        if (CombatManager.isInCombat(player)) {
+            player.sendMessage(ChatColor.RED +"You cannot use this command while in combat!");
+            return true;
+        }
 
         Nexus nexus = NexusManager.getNexus(player);
 

@@ -43,6 +43,9 @@ public class Constants {
     public static final String PLAYER_INFERNO_KIT_COOLDOWN_KEY = "data_player_inferno_kit_cooldown";
     public static final String PDC_LOCKED_CHEST_KIT = "kit_locked_by";
 
+    // Player combat duration in milliseconds
+    public static final long PLAYER_COMBAT_DURATION = 10000;
+
     // NBT tag keys for callback handling
     public static final String UI_NAVIGATE_KEY = "navigate_key";
     public static final String UI_ACTION_KEY = "action_key";
