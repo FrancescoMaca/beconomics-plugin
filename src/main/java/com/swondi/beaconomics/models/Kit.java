@@ -21,7 +21,7 @@ public class Kit {
         UUID owner,
         boolean locked,
         int cooldown,
-        Long createdAt,
+        long createdAt,
         Location location
     ) {
         this.id = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();

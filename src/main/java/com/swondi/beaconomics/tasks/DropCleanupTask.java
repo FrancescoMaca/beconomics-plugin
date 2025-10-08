@@ -1,5 +1,6 @@
 package com.swondi.beaconomics.tasks;
 
+import com.swondi.beaconomics.managers.KitManager;
 import com.swondi.beaconomics.models.Kit;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -7,6 +8,7 @@ import org.bukkit.Particle;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class DropCleanupTask extends BukkitRunnable {
@@ -23,16 +25,20 @@ public class DropCleanupTask extends BukkitRunnable {
 
     @Override
     public void run() {
-        for (Kit chest : drops) {
-            if (TickTask.tick >= (chest.getCreatedAt() + 3000)) {
+        Iterator<Kit> iterator = drops.iterator();
+
+        while (iterator.hasNext()) {
+            Kit chest = iterator.next();
+            if (System.currentTimeMillis() >= (chest.getCreatedAt() + 90_000)) {
                 Bukkit.getWorld("world").spawnParticle(
-                    Particle.BLOCK,
+                    Particle.CRIMSON_SPORE,
                     chest.getLocation().add(0.5, 0.5, 0.5),
-                    100, 0.5, 0.5, 0.5,
-                    Material.CHEST.createBlockData()
+                    50, 0.1, 0.1, 0.1
                 );
+
+                KitManager.removeAllFallingArmorStands(chest.getLocation());
                 chest.getLocation().getWorld().setType(chest.getLocation(), Material.AIR);
-                removeChest(chest.getId());
+                iterator.remove();
             }
         }
     }

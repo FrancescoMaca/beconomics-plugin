@@ -1,4 +1,4 @@
-package com.swondi.beaconomics.utils;
+package com.swondi.beaconomics.helpers;
 
 import com.swondi.beaconomics.Beaconomics;
 import org.bukkit.Location;

@@ -1,14 +1,17 @@
 package com.swondi.beaconomics.listeners;
 
+import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.helpers.ItemStackCreator;
+import com.swondi.beaconomics.managers.GeneratorManager;
 import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.managers.YamlManager;
 import com.swondi.beaconomics.models.Generator;
 import com.swondi.beaconomics.models.Nexus;
 import com.swondi.beaconomics.tasks.GeneratorTask;
-import com.swondi.beaconomics.utils.EntityHelper;
+import com.swondi.beaconomics.utils.Constants;
+import com.swondi.beaconomics.helpers.EntityHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,10 +19,12 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class GeneratorListener implements Listener {
 
@@ -73,9 +78,11 @@ public class GeneratorListener implements Listener {
             return;
         }
 
+        GeneratorManager.addGenerator(block.getLocation());
+
         Generator generator = new Generator(
             block.getType(),
-            20,
+            Constants.DATA_GENERATORS.get(itemInHand.getType()).rate(),
             defaultDrops.get(block.getType()),
             block.getLocation()
         );
@@ -86,27 +93,69 @@ public class GeneratorListener implements Listener {
         player.sendMessage(ChatColor.GREEN + "Generator has been placed!");
     }
 
+    /**
+     * This method is solely used to handle creative mode interactions. Since on creative mode you dont
+     * trigger onBlockDamage.
+     */
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
+        Location blockLocation = block.getLocation();
 
+        // Checks only possible generators
         if (!defaultDrops.containsKey(block.getType())) return;
 
-        Generator generator = new Generator(
-            block.getType(),
-            20,
-            Material.CANDLE,
-            block.getLocation()
-        );
+        if (GeneratorManager.isAGeneratorLocation(blockLocation)) {
+            Material genType = block.getType();
 
-        Generator.removeFromYaml(genYaml, generator.getId());
-        GeneratorTask.removeGenerator(generator);
+            // Drop the block
+            blockLocation.getWorld().dropItemNaturally(blockLocation, ItemStackCreator.createGenerator(genType, true));
+
+            Generator generator = new Generator(
+                block.getType(),
+                Constants.DATA_GENERATORS.get(genType).rate(),
+                Material.CANDLE,
+                block.getLocation()
+            );
+
+            GeneratorManager.removeGenerator(block.getLocation());
+            Generator.removeFromYaml(genYaml, generator.getId());
+            GeneratorTask.removeGenerator(generator);
+        }
     }
 
+    /**
+     * Drop the generator after the first hit
+     */
     @EventHandler
     public void onBlockDamage(BlockDamageEvent event) {
         Block block = event.getBlock();
-        Player player = event.getPlayer();
+        Location blockLocation = block.getLocation();
 
+        // Checks only possible generators
+        if (!defaultDrops.containsKey(block.getType())) return;
+
+        if (GeneratorManager.isAGeneratorLocation(blockLocation)) {
+            event.setCancelled(true);
+
+            Material genType = block.getType();
+
+            // Destroy the block
+            block.setType(Material.AIR);
+
+            // Drop the block
+            blockLocation.getWorld().dropItemNaturally(blockLocation, ItemStackCreator.createGenerator(genType, true));
+
+            Generator generator = new Generator(
+                block.getType(),
+                Constants.DATA_GENERATORS.get(genType).rate(),
+                Material.CANDLE,
+                block.getLocation()
+            );
+
+            GeneratorManager.removeGenerator(block.getLocation());
+            Generator.removeFromYaml(genYaml, generator.getId());
+            GeneratorTask.removeGenerator(generator);
+        }
     }
 }

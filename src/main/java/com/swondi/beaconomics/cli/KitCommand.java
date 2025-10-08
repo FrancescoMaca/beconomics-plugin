@@ -5,8 +5,7 @@ import com.swondi.beaconomics.managers.KitManager;
 import com.swondi.beaconomics.managers.PDCManager;
 import com.swondi.beaconomics.models.Kit;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
-import com.swondi.beaconomics.tasks.TickTask;
-import com.swondi.beaconomics.utils.CommandHelper;
+import com.swondi.beaconomics.helpers.CommandHelper;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -18,8 +17,8 @@ import org.bukkit.entity.Player;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-import static com.swondi.beaconomics.utils.AnimationHelper.findFirstAvailableBlock;
-import static com.swondi.beaconomics.utils.AnimationHelper.spawnFireWave;
+import static com.swondi.beaconomics.helpers.AnimationHelper.findFirstAvailableBlock;
+import static com.swondi.beaconomics.helpers.AnimationHelper.spawnFireWave;
 
 public class KitCommand implements CommandExecutor, TabCompleter {
 
@@ -44,6 +43,14 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
         if (args.length == 0) {
             player.sendMessage("§eUsage: /kit <name>");
+            return true;
+        }
+
+        int x = player.getLocation().getBlockX();
+        int z = player.getLocation().getBlockZ();
+
+        if (Math.sqrt(x * x + z * z) <= 68) {
+            player.sendMessage(ChatColor.RED + "You cannot request a kit in spawn");
             return true;
         }
 
@@ -97,7 +104,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
                 player.getUniqueId(),
                 true,
                 100,
-                TickTask.tick,
+                System.currentTimeMillis(),
                 dropLocation
             );
 

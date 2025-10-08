@@ -1,6 +1,7 @@
 package com.swondi.beaconomics.menus.shop;
 
 import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.utils.Constants;
 import com.swondi.beaconomics.utils.UIHelper;
@@ -69,124 +70,30 @@ public class ShopGeneratorsMenu {
     }
 
     private static void buildWoolRow(Inventory inventory) {
-        inventory.setItem(10, createGenerator(
-            "§f§lWhite Generator§r",
-            Material.WHITE_WOOL,
-            1,
-            "§fWhite Candle",
-            6000
-        ));
-        inventory.setItem(11, createGenerator(
-            "§7§lLight Gray Generator§r",
-            Material.LIGHT_GRAY_WOOL,
-            1,
-            "Light Gray Candle",
-            12500
-        ));
-        inventory.setItem(12, createGenerator(
-            "§8§lGray Generator§r",
-            Material.GRAY_WOOL,
-            1,
-            "§8Gray Candle",
-            25000
-        ));
-        inventory.setItem(13, createGenerator(
-            "§7§lBlack Generator§r",
-            Material.BLACK_WOOL,
-            1,
-            "§7Black Candle",
-            37500
-        ));
-        inventory.setItem(14, createGenerator(
-            "§c§lRed Generator§r",
-            Material.RED_WOOL,
-            1,
-            "§cRed Candle",
-            62500
-        ));
+        inventory.setItem(10, ItemStackCreator.createGenerator(Material.WHITE_WOOL, false));
+        inventory.setItem(11, ItemStackCreator.createGenerator(Material.LIGHT_GRAY_WOOL, false));
+        inventory.setItem(12, ItemStackCreator.createGenerator(Material.GRAY_WOOL, false));
+        inventory.setItem(13, ItemStackCreator.createGenerator(Material.BLACK_WOOL, false));
+        inventory.setItem(14, ItemStackCreator.createGenerator(Material.RED_WOOL, false));
+
     }
 
     private static void buildConcreteRow(Inventory inventory) {
-        inventory.setItem(19, createGenerator(
-            "§6§lOrange Generator§r",
-            Material.ORANGE_CONCRETE,
-            2, // production rate
-            "§6Orange Candle",
-            60000
-        ));
-        inventory.setItem(20, createGenerator(
-            "§e§lYellow Generator§r",
-            Material.YELLOW_CONCRETE,
-            2,
-            "§eYellow Candle",
-            120000
-        ));
-        inventory.setItem(21, createGenerator(
-            "§a§lLime Generator§r",
-            Material.LIME_CONCRETE,
-            3,
-            "§aLime Candle",
-            300_000
-        ));
-        inventory.setItem(22, createGenerator(
-            "§2§lGreen Generator§r",
-            Material.GREEN_CONCRETE,
-            3,
-            "§2Green Candle",
-            1_200_000
-        ));
-        inventory.setItem(23, createGenerator(
-            "§b§lCyan Generator§r",
-            Material.CYAN_CONCRETE,
-            4,
-            "§bCyan Candle",
-            1_800_000
-        ));
-        inventory.setItem(24, createGenerator(
-            "§3§lLight Blue Generator§r",
-            Material.LIGHT_BLUE_CONCRETE,
-            4,
-            "§3Light Blue Candle",
-            1_800_000
-        ));
+        inventory.setItem(19, ItemStackCreator.createGenerator(Material.ORANGE_CONCRETE, false));
+        inventory.setItem(20, ItemStackCreator.createGenerator(Material.YELLOW_CONCRETE, false));
+        inventory.setItem(21, ItemStackCreator.createGenerator(Material.LIME_CONCRETE, false));
+        inventory.setItem(22, ItemStackCreator.createGenerator(Material.GREEN_CONCRETE, false));
+        inventory.setItem(23, ItemStackCreator.createGenerator(Material.CYAN_CONCRETE, false));
+        inventory.setItem(24, ItemStackCreator.createGenerator(Material.LIGHT_BLUE_CONCRETE, false));
+
     }
 
     private static void buildTerracottaRow(Inventory inventory) {
-        inventory.setItem(28, createGenerator(
-            "§9§lBlue Generator§r",
-            Material.BLUE_GLAZED_TERRACOTTA,
-            5, // production rate
-            "§9Blue Candle",
-            5_000_000
-        ));
-        inventory.setItem(29, createGenerator(
-            "§5§lPurple Generator§r",
-            Material.PURPLE_GLAZED_TERRACOTTA,
-            5,
-            "§5Purple Candle",
-            8_750_000
-        ));
-        inventory.setItem(30, createGenerator(
-            "§d§lMagenta Generator§r",
-            Material.MAGENTA_GLAZED_TERRACOTTA,
-            6,
-            "§dMagenta Candle",
-            15_000_000
-        ));
-        inventory.setItem(31, createGenerator(
-            "§d§lPink Generator§r",
-            Material.PINK_GLAZED_TERRACOTTA,
-            6,
-            "§dPink Candle",
-            22_500_000
-        ));
-        inventory.setItem(32, createGenerator(
-            "§6§lBrown Generator§r",
-            Material.BROWN_GLAZED_TERRACOTTA,
-            7,
-            "§6Brown Candle",
-            35_000_000
-        ));
+        inventory.setItem(28, ItemStackCreator.createGenerator(Material.BLUE_GLAZED_TERRACOTTA, false));
+        inventory.setItem(29, ItemStackCreator.createGenerator(Material.PURPLE_GLAZED_TERRACOTTA, false));
+        inventory.setItem(30, ItemStackCreator.createGenerator(Material.MAGENTA_GLAZED_TERRACOTTA, false));
+        inventory.setItem(31, ItemStackCreator.createGenerator(Material.PINK_GLAZED_TERRACOTTA, false));
+        inventory.setItem(32, ItemStackCreator.createGenerator(Material.BROWN_GLAZED_TERRACOTTA, false));
     }
 
     private static  void buildLockedRow(Inventory inventory, int index) {
@@ -204,36 +111,5 @@ public class ShopGeneratorsMenu {
 
             inventory.setItem(i, bar);
         }
-    }
-
-    private static ItemStack createGenerator(String name, Material material, float rate, String dropType, int price) {
-        ItemStack gen = new ItemStack(material);
-        ItemMeta meta = gen.getItemMeta();
-
-        // Adding action key
-        if (meta != null) {
-            NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
-            NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
-            NamespacedKey genTagKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_GENERATOR_TAG);
-
-            meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
-            meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, price);
-            meta.getPersistentDataContainer().set(genTagKey, PersistentDataType.BYTE, (byte)1);
-
-            meta.setDisplayName(name);
-            meta.setLore(List.of(
-                "§7You can place generators only in the chunk",
-                "§7where your §b§lNexus §7resides.",
-                "§8-------------------------",
-                "§e§lProduction§7: §f" + rate + " candle/s",
-                "§e§lDrop Type§7: " + dropType,
-                "§e§lPrice§7: §6$" + getFormattedMoney(price),
-                "§8-------------------------",
-                "§aClick to purchase!"
-            ));
-            gen.setItemMeta(meta);
-        }
-
-        return gen;
     }
 }

@@ -1,4 +1,4 @@
-package com.swondi.beaconomics.utils;
+package com.swondi.beaconomics.helpers;
 
 import java.util.ArrayList;
 import java.util.List;

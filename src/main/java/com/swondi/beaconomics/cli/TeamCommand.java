@@ -1,7 +1,7 @@
 package com.swondi.beaconomics.cli;
 
 import com.swondi.beaconomics.cli.handlers.*;
-import com.swondi.beaconomics.utils.CommandHelper;
+import com.swondi.beaconomics.helpers.CommandHelper;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

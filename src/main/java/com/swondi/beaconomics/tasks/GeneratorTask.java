@@ -12,8 +12,6 @@ import java.util.Set;
 
 public class GeneratorTask extends BukkitRunnable {
     private final static Set<Generator> generators = new HashSet<>();
-    private static int currentTick = 0;
-
 
     public GeneratorTask() {
         YamlManager genYaml = new YamlManager("generator.yml");
@@ -42,12 +40,13 @@ public class GeneratorTask extends BukkitRunnable {
         for (Generator generator : generators) {
             // Checking if there is a need to drop first, so if there is not, we don't calculate unnecessary things
             // If the gen is waiting to drop, then skip
-            if (currentTick - generator.nextDrop < generator.getRate()) {
+            // getRate() returns ticks, and we need milliseconds, 1 tick = 50ms
+            if (System.currentTimeMillis() - generator.nextDrop < generator.getRate() * 50L) {
                 continue;
             }
 
             // if it needs to drop then update the latest drop to the current tick
-            generator.nextDrop = currentTick;
+            generator.nextDrop = System.currentTimeMillis();
 
             Location spawnItemLocation = generator.getLocation().clone().add(0.5, 1.5, 0.5);
 
@@ -55,14 +54,6 @@ public class GeneratorTask extends BukkitRunnable {
                 .getLocation()
                 .getWorld()
                 .dropItemNaturally(spawnItemLocation, new ItemStack(generator.getDrop(), 1));
-        }
-
-        // Updates tick and resets the counter for overflows
-        // This will create problems for spawners that have a drop rate > 2000
-        currentTick++;
-
-        if  (currentTick > 50000) {
-            currentTick = 0;
         }
     }
 }

@@ -178,36 +178,23 @@ public class UIListener implements Listener {
         if (balance < price) {
             player.playSound(player.getLocation(), Sound.ENTITY_VILLAGER_NO, 1.0f, 1.0f);
             player.sendMessage("§cYou don't have enough money!");
+            player.sendMessage(ChatColor.DARK_RED + "Withdraw some money from your bank with " + ChatColor.GOLD + "/bank withdraw [amount]");
             return;
         }
 
+        // Give the generator item (actual usable one, not shop display item)
+        ItemStack generatorItem = ItemStackCreator.createGenerator(clicked.getType(), true);
+
+        if (generatorItem == null) {
+            player.sendMessage(ChatColor.RED + "There was an error while buying this item. Try again later.");
+            return;
+        }
         // Removes money
         BankManager.setOnHandMoney(player, balance - price);
-
-        // Give the generator item (actual usable one, not shop display item)
-        ItemStack generatorItem = clicked.clone();
-        ItemMeta genMeta = generatorItem.getItemMeta();
-
-        if (genMeta != null) {
-            // Remove UI-only tags like price + action keys
-            NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
-
-            genMeta.getPersistentDataContainer().remove(buyKey);
-            genMeta.getPersistentDataContainer().remove(priceKey);
-
-            generatorItem.setItemMeta(genMeta);
-        }
-
         Scoreboard.updateScore(player);
-
-        String readableName = Arrays.stream(generatorItem.getType().name()
-            .replaceAll("_", " ")
-            .split(" "))
-            .map((s) -> s.charAt(0) + s.substring(1).toLowerCase())
-            .collect(Collectors.joining(" "));
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
         player.getInventory().addItem(generatorItem);
-        player.sendMessage("§aYou purchased a " + readableName + " for §6$" + price);
+        player.sendMessage("§aYou purchased a " + generatorItem.getItemMeta().getDisplayName() + " for §6$" + price);
     }
 }

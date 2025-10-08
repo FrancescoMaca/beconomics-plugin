@@ -25,19 +25,6 @@ import java.util.Arrays;
 
 public class ChestListener implements Listener {
 
-//    @EventHandler
-//    public void onBlockBreak(BlockBreakEvent event) {
-//        Block block = event.getBlock();
-//        Player player = event.getPlayer();
-//
-//        // Only checks for chest break
-//        if (block.getType() != Material.CHEST) return;
-//
-//        if (!PDCManager.canOpenChest(block, player)) {
-//            event.setCancelled(true);
-//        }
-//    }
-
     /**
      * When the chest is open cancels the event if the player who opens it
      * isn't the owner of the chest
@@ -63,10 +50,6 @@ public class ChestListener implements Listener {
         player.openInventory(((Chest) block.getState()).getInventory());
     }
 
-    /**
-     *
-     * @param event
-     */
     @EventHandler
     public void onChestBreak(BlockBreakEvent event) {
         Block block = event.getBlock();

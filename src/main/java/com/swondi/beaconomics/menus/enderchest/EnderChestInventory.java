@@ -11,7 +11,7 @@ public class EnderChestInventory {
 
     public static Inventory build(Player player) {
 
-        Constants.Rank playerRank = RankManager.getPlayerRank(player);
+        Constants.RankData playerRank = RankManager.getPlayerRank(player);
 
         if (playerRank.eChestLayers() == 0) {
             return null;

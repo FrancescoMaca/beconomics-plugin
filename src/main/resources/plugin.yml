@@ -19,6 +19,9 @@ commands:
   bank:
     description: Handles all money related commands
     usage: /bank [deposit|withdraw|pay|info|upgrade]
+  kits:
+    description: Shows all available kits and their cooldown
+    usage: /kits
   kit:
     description: Handles all kit related commands
     usage: /kit [starter]
@@ -29,6 +32,8 @@ commands:
     description: Handles player possibility to set a home
     usage: /sethome
   nexus:
+    aliases:
+    - "base"
     description: Handle Nexus Home teleport
     usage: /nexus
   system:

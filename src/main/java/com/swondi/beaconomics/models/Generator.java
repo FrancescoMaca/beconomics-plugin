@@ -12,7 +12,7 @@ public class Generator {
     private final Material drop;
     private final Location location;
 
-    public int nextDrop = 0;
+    public long nextDrop = 0;
 
     public Generator(Material type, int rate, Material drop, Location location) {
         this.id = location.getBlockX() + "_" + location.getBlockY() + "_" + location.getBlockZ();

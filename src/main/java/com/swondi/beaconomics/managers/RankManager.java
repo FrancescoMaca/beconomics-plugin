@@ -10,16 +10,16 @@ import java.util.Set;
 import java.util.UUID;
 
 public class RankManager {
-    private static Map<UUID, Constants.Rank> ranks = new HashMap<>();
+    private static Map<UUID, Constants.RankData> ranks = new HashMap<>();
     private static YamlManager yaml = new YamlManager("ranks.yml");
 
-    public static void setPlayerRank(UUID uuid, Constants.Rank rank) {
+    public static void setPlayerRank(UUID uuid, Constants.RankData rank) {
         ranks.put(uuid, rank);
         yaml.set("ranks." + uuid, rank.name());
         yaml.save();
     }
 
-    public static Constants.Rank getPlayerRank(Player player) {
+    public static Constants.RankData getPlayerRank(Player player) {
         return ranks.getOrDefault(player.getUniqueId(), Constants.RANKS.get("Default"));
     }
 

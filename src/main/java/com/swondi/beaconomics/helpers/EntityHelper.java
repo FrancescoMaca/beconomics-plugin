@@ -1,6 +1,7 @@
-package com.swondi.beaconomics.utils;
+package com.swondi.beaconomics.helpers;
 
 import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
