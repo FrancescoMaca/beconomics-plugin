@@ -73,15 +73,12 @@ public class KitManager {
             inv.setItem(i, placeholder);
         }
 
-        ItemStack beacon = ItemStackCreator.createNexus();
-
-        inv.setItem(4, beacon);
+        inv.setItem(4, ItemStackCreator.createNexus());
         inv.setItem(11, createArmor(Material.LEATHER_BOOTS, "§fStarter Boots"));
         inv.setItem(12, createArmor(Material.LEATHER_LEGGINGS, "§fStarter Leggings"));
         inv.setItem(13, createArmor(Material.LEATHER_CHESTPLATE, "§fStarter Chestplate"));
         inv.setItem(14, createArmor(Material.LEATHER_HELMET, "§fStarter Helmet"));
         inv.setItem(15, createItemStack(Material.WOODEN_SWORD, "§fStarter Sword"));
-
         inv.setItem(22, createItemStack(Material.WOODEN_PICKAXE, "§fStarter Pickaxe"));
     }
 

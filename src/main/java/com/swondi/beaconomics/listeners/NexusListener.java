@@ -38,10 +38,9 @@ public class NexusListener implements Listener {
 
         // Otherwise overrides the default drop with a custom one
         event.setDropItems(false);
-        ItemStack drop = ItemStackCreator.createNexus();
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_GLASS_BREAK, 0.5f, 1.7f);
 
-        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), drop);
+        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), ItemStackCreator.createNexus());
     }
 
     /**

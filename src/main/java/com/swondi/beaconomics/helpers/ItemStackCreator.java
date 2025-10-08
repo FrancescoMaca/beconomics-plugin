@@ -18,6 +18,8 @@ public class ItemStackCreator {
 
     /**
      * Returns a Nexus with the custom name and lore
+     * @param isDrop This flag is true if the generator needs to be created as a drop, meaning an actual item players have
+     *               in their inventory. Otherwise, if set to false the item will be made ready for the shop inventory.
      */
     public static ItemStack createNexus() {
         ItemStack nexus = new ItemStack(Material.BEACON);
@@ -28,6 +30,7 @@ public class ItemStackCreator {
         meta.setDisplayName(ChatColor.AQUA + "Nexus");
         List<String> lore = new ArrayList<>();
         lore.add("§7The core of your base. Defend it at all costs!");
+
         meta.setLore(lore);
         nexus.setItemMeta(meta);
 
