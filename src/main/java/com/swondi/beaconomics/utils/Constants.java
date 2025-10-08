@@ -68,16 +68,16 @@ public class Constants {
     }};
 
     public static final Map<Material, DefenseBlockData> DATA_DEFENSE_BLOCKS = new HashMap<>() {{
-        put(Material.MUD_BRICKS, new DefenseBlockData(1, 50));
-        put(Material.SANDSTONE, new DefenseBlockData(2, 150));
-        put(Material.STONE_BRICKS, new DefenseBlockData(3, 250));
-        put(Material.POLISHED_BLACKSTONE_BRICKS, new DefenseBlockData(4, 500));
-        put(Material.OBSIDIAN, new DefenseBlockData(6, 1000));
-        put(Material.OAK_DOOR, new DefenseBlockData(1, 50));
-        put(Material.BIRCH_DOOR, new DefenseBlockData(2, 150));
-        put(Material.SPRUCE_DOOR, new DefenseBlockData(3, 250));
-        put(Material.CRIMSON_DOOR, new DefenseBlockData(4, 500));
-        put(Material.PALE_OAK_DOOR, new DefenseBlockData(6, 1000));
+        put(Material.MUD_BRICKS, new DefenseBlockData(1, 50, 1000));
+        put(Material.SANDSTONE, new DefenseBlockData(2, 150, 5000));
+        put(Material.STONE_BRICKS, new DefenseBlockData(3, 250, 10000));
+        put(Material.POLISHED_BLACKSTONE_BRICKS, new DefenseBlockData(4, 500, 20000));
+        put(Material.OBSIDIAN, new DefenseBlockData(6, 1000, 30000));
+        put(Material.OAK_DOOR, new DefenseBlockData(1, 50, 1000));
+        put(Material.BIRCH_DOOR, new DefenseBlockData(2, 150, 5000));
+        put(Material.SPRUCE_DOOR, new DefenseBlockData(3, 250, 10000));
+        put(Material.CRIMSON_DOOR, new DefenseBlockData(4, 500, 20000));
+        put(Material.PALE_OAK_DOOR, new DefenseBlockData(6, 1000, 30000));
     }};
 
     public static final Map<String, RankData> RANKS = new HashMap<>() {{
@@ -87,6 +87,19 @@ public class Constants {
         put("Ember", new RankData("Ember", 3));
         put("Fire", new RankData("Fire", 4));
         put("Inferno", new RankData("Inferno", 5));
+    }};
+
+    public static final Map<Material, TemporaryBlockData> DATA_TEMPORARY = new HashMap<>() {{
+        put(Material.COBBLESTONE, new TemporaryBlockData(500));
+        put(Material.SANDSTONE, new TemporaryBlockData(600));
+        put(Material.STONE, new TemporaryBlockData(700));
+        put(Material.SMOOTH_STONE, new TemporaryBlockData(800));
+        put(Material.PRISMARINE, new TemporaryBlockData(1000));
+        put(Material.BRICKS, new TemporaryBlockData(1200));
+        put(Material.NETHER_BRICKS, new TemporaryBlockData(1400));
+        put(Material.QUARTZ_BLOCK, new TemporaryBlockData(1500));
+        put(Material.RED_SANDSTONE, new TemporaryBlockData(1100));
+        put(Material.PURPUR_BLOCK, new TemporaryBlockData(1300));
     }};
 
     public static final Map<Material, GeneratorData> DATA_GENERATORS = new HashMap<>() {{
@@ -116,5 +129,6 @@ public class Constants {
     public record KitData(int cooldown) {}
     public record GeneratorData(int price, int rate, String name, String dropName, Material dropType, ChatColor color) {}
     public record RankData(String name, int eChestLayers) {}
-    public record DefenseBlockData(double fuelConsumption, int health) { }
+    public record DefenseBlockData(double fuelConsumption, int health, int price) { }
+    public record TemporaryBlockData(int price) {}
 }

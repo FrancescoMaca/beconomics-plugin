@@ -21,9 +21,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class UIListener implements Listener {
 
@@ -182,19 +180,32 @@ public class UIListener implements Listener {
             return;
         }
 
-        // Give the generator item (actual usable one, not shop display item)
-        ItemStack generatorItem = ItemStackCreator.createGenerator(clicked.getType(), true);
+        NamespacedKey isGenKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_GENERATOR_TAG);
+        NamespacedKey isDefenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
 
-        if (generatorItem == null) {
+        ItemStack item;
+
+        if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isGenKey)) {
+            item = ItemStackCreator.createGenerator(event.getCurrentItem().getType(), true);
+        }
+        else if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isDefenseKey)) {
+            item = ItemStackCreator.createDefenseBlock(event.getCurrentItem().getType(), true);
+        }
+        else {
+            item = ItemStackCreator.createTemporaryBlock(event.getCurrentItem().getType(), true);
+        }
+
+        if (item == null) {
             player.sendMessage(ChatColor.RED + "There was an error while buying this item. Try again later.");
             return;
         }
+
         // Removes money
         BankManager.setOnHandMoney(player, balance - price);
         Scoreboard.updateScore(player);
 
         player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
-        player.getInventory().addItem(generatorItem);
-        player.sendMessage("§aYou purchased a " + generatorItem.getItemMeta().getDisplayName() + " for §6$" + price);
+        player.getInventory().addItem(item);
+        player.sendMessage("§aYou purchased a " + item.getItemMeta().getDisplayName() + "§a for §6$" + price);
     }
 }

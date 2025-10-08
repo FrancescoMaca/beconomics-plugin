@@ -6,13 +6,11 @@ import com.swondi.beaconomics.data.YamlVerifier;
 import com.swondi.beaconomics.debug.listeners.DebugBeaconLevelListener;
 import com.swondi.beaconomics.events.ConnectionEvents;
 import com.swondi.beaconomics.listeners.*;
-import com.swondi.beaconomics.managers.KitManager;
-import com.swondi.beaconomics.managers.NexusManager;
-import com.swondi.beaconomics.managers.RankManager;
-import com.swondi.beaconomics.managers.TemporaryBlocksManager;
+import com.swondi.beaconomics.managers.*;
 import com.swondi.beaconomics.tasks.BackupTask;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
 import com.swondi.beaconomics.tasks.GeneratorTask;
+import com.swondi.beaconomics.utils.Constants;
 import net.luckperms.api.LuckPerms;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -54,8 +52,6 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CandleSellListener(), this);
 
         // Binds luckperms API listener
-        LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        new LuckPermsListener(luckPerms).register();
 
         // Setup commands
         Objects.requireNonNull(getCommand("bugreport")).setExecutor(new BugReportCommand());
@@ -75,6 +71,7 @@ public final class Beaconomics extends JavaPlugin {
         KitManager.removeAllFallingArmorStands();
         NexusManager.backup();
         TemporaryBlocksManager.backup();
+        DefenseBlocksManager.backup();
     }
 
     public static Beaconomics getInstance() {

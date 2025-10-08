@@ -89,4 +89,89 @@ public class ItemStackCreator {
 
         return gen;
     }
+
+    public static ItemStack createTemporaryBlock(Material type, boolean isDrop) {
+        ItemStack item = new ItemStack(type);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            // If it's not a drop then we add the shop lore and pdc values
+            if (!isDrop) {
+                NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
+                NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
+                meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
+                meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, Constants.DATA_TEMPORARY.get(type).price());
+            }
+
+            NamespacedKey tempKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_TEMPORARY_BLOCK_TAG);
+            meta.getPersistentDataContainer().set(tempKey, PersistentDataType.BYTE, (byte)1);
+            meta.setDisplayName(ChatColor.RESET + "" + type.name().charAt(0) + type.name().replaceAll("_", " ").substring(1).toLowerCase());
+
+            // Creating dynamic lore
+            List<String> lore = new ArrayList<>();
+            lore.add("§7Place these blocks anywhere, but remember that after a few");
+            lore.add("§7seconds they disappear!");
+
+            if (!isDrop) {
+                lore.add("§8-------------------------");
+                lore.add("§e§lPrice§7: §6$" + getFormattedMoney(Constants.DATA_TEMPORARY.get(type).price()));
+                lore.add("§8-------------------------");
+                lore.add("§aClick to purchase!");
+            }
+
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
+
+    public static ItemStack createDefenseBlock(Material type, boolean isDrop){
+        Constants.DefenseBlockData data = Constants.DATA_DEFENSE_BLOCKS.get(type);
+
+        if (data == null) {
+            return null;
+        }
+
+        ItemStack gen = new ItemStack(type);
+        ItemMeta meta = gen.getItemMeta();
+
+        if (meta != null) {
+            // If it's not a drop then we add the shop lore and pdc values
+            if (!isDrop) {
+                NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
+                NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
+                meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
+                meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, data.price());
+            }
+
+            NamespacedKey defenseTagKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
+            meta.getPersistentDataContainer().set(defenseTagKey, PersistentDataType.BYTE, (byte)1);
+            String formattedName = type.name().replaceAll("_", " ");
+            meta.setDisplayName(ChatColor.BOLD + (formattedName.charAt(0) + formattedName.substring(1).toLowerCase()));
+
+            // Creating dynamic lore
+            List<String> lore = new ArrayList<>();
+            lore.add("§7You can place defenses only in the chunk");
+            lore.add("§7to protect your nexus.");
+            lore.add("§8-------------------------");
+            lore.add("§e§lConsumption§7: §f" + data.fuelConsumption() + " Coal/30m");
+            lore.add("§e§lHealth§7: " + data.health());
+
+            if (!isDrop) {
+                lore.add("§e§lPrice§7: §6$" + getFormattedMoney(data.price()));
+            }
+
+            lore.add("§8-------------------------");
+
+            if (!isDrop) {
+                lore.add("§aClick to purchase!");
+            }
+
+            meta.setLore(lore);
+            gen.setItemMeta(meta);
+        }
+
+        return gen;
+    }
 }
