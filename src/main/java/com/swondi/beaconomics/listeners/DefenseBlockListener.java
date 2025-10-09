@@ -38,7 +38,6 @@ public class DefenseBlockListener implements Listener {
             return;
         }
 
-        event.getPlayer().sendMessage("You placed a defense");
         DefenseBlocksManager.addDefense(event.getBlock().getType(), event.getBlock().getLocation());
     }
 }

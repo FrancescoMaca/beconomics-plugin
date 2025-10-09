@@ -14,10 +14,7 @@ import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
 import javax.annotation.Nonnull;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class BankCommand implements CommandExecutor, TabCompleter {
     private static final List<String> SUB_CMDS = List.of("pay", "withdraw", "deposit", "info");

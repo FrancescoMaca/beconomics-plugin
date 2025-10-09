@@ -1,25 +1,24 @@
 package com.swondi.beaconomics.cli;
 
-
 import com.swondi.beaconomics.managers.BankManager;
 import com.swondi.beaconomics.managers.PlayerDataManager;
-import com.swondi.beaconomics.managers.YamlManager;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nonnull;
 import java.util.*;
 
 public class BalanceTopCommand implements CommandExecutor {
-
-    private final YamlManager yaml = new YamlManager("money.yml");
-
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(
+            @Nonnull CommandSender sender,
+            @Nonnull Command command,
+            @Nonnull String label,
+            @Nonnull String[] args
+    ) {
 
         if (!(sender instanceof Player)) {
             sender.sendMessage(ChatColor.RED + "This command can only be run by a player.");
@@ -41,24 +40,18 @@ public class BalanceTopCommand implements CommandExecutor {
             return true;
         }
 
-        Map<String, Integer> totalBalances = new HashMap<>();
-        for (String uuidStr : yaml.getConfiguration().getKeys(false)) {
-            int onHand = yaml.getInt(uuidStr + ".onhand");
-            int bank = yaml.getInt(uuidStr + ".bank.amount");
-            int total = onHand + bank;
+        Map<UUID, Integer> totalBalances = BankManager.getAllPlayersMoney();
 
-            String name = PlayerDataManager.getName(UUID.fromString(uuidStr));
-
-            totalBalances.put(name, total);
-        }
-        List<Map.Entry<String, Integer>> sorted = new ArrayList<>(totalBalances.entrySet());
-        sorted.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
+        // Sort entries in descending order (largest to smallest)
+        List<Map.Entry<UUID, Integer>> balances = totalBalances.entrySet().stream()
+                .sorted(Map.Entry.<UUID, Integer>comparingByValue(Comparator.reverseOrder()))  // Reversed sorting
+                .toList();
 
         sender.sendMessage("§6§lServer Top Balance:");
 
         int pos = 1;
-        for (Map.Entry<String, Integer> entry : sorted.stream().limit(limit).toList()) {
-            sender.sendMessage("§e#" + pos + " §f" + entry.getKey() + " §7- §a" + BankManager.getFormattedMoney(entry.getValue()) + "$");
+        for (Map.Entry<UUID, Integer> entry : balances.stream().limit(limit).toList()) {
+            sender.sendMessage("§e#" + pos + " §f" + PlayerDataManager.getName(entry.getKey()) + " §7- §a" + BankManager.getFormattedMoney(entry.getValue()) + "$");
             pos++;
         }
 

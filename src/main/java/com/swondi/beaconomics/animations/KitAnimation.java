@@ -43,7 +43,7 @@ public class KitAnimation {
 
                     // Spawn a nametag ArmorStand above the chest
                     ArmorStand nameTagArmorStand = world.spawn(targetLocation.clone().add(0, 1, 0), ArmorStand.class, a -> {
-                        a.setCustomName(ChatColor.GOLD + kitName);
+                        a.setCustomName(getChatColorFromColor(color) + kitName);
                         a.setCustomNameVisible(true);
                         a.setVisible(false);
                         a.setGravity(false);
@@ -71,5 +71,26 @@ public class KitAnimation {
                 world.spawnParticle(Particle.DUST, targetLocation, 7, 0.1, 0.7, 0.1, 0.01, redSpark);
             }
         }.runTaskTimer(Beaconomics.getInstance(), 0L, 1L); // run every tick
+    }
+
+    private static ChatColor getChatColorFromColor(Color color) {
+
+        if (color == Color.RED) {
+            return ChatColor.RED;
+        }
+        else if (color == Color.ORANGE) {
+            return ChatColor.GOLD;
+        }
+        else if (color == Color.GREEN) {
+            return ChatColor.GREEN;
+        }
+        else if (color == Color.YELLOW) {
+            return ChatColor.YELLOW;
+        }
+        else if (color == Color.TEAL) {
+            return ChatColor.DARK_AQUA;
+        }
+
+        return ChatColor.WHITE;
     }
 }

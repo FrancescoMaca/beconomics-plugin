@@ -1,9 +1,37 @@
 package com.swondi.beaconomics.managers;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class BankManager {
     private static final YamlManager yaml = new YamlManager("money.yml");
+
+    public static Map<UUID, Integer> getAllPlayersMoney() {
+        Map<UUID, Integer> balances = new HashMap<>();
+
+        // Get the configuration section for all UUIDs
+        FileConfiguration config = yaml.getConfiguration();
+        for (String uuidString : config.getKeys(false)) {
+            UUID uuid = UUID.fromString(uuidString);
+
+            // Retrieve the player's onhand money
+            int onhand = config.getInt(uuidString + ".onhand", 0);
+
+            // Retrieve the player's bank money (if present)
+            int bank = config.contains(uuidString + ".bank.amount") ?
+                    config.getInt(uuidString + ".bank.amount", 0) : 0;
+
+            // Calculate total money and put it in the map
+            int totalMoney = onhand + bank;
+            balances.put(uuid, totalMoney);
+        }
+
+        return balances;
+    }
 
     /**
      * Gets the target player's on-hand money from file.

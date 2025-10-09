@@ -35,7 +35,6 @@ public class TemporaryBlocksManager {
         while (!temporaryBlocks.isEmpty()) {
             TemporaryBlock tempBlock = temporaryBlocks.peek();
             if (tempBlock.getRemovalTime() <= System.currentTimeMillis()) {
-                Bukkit.broadcastMessage(">> Removing block at " + tempBlock.getLocation().getBlockX() + " " + tempBlock.getLocation().getBlockY() + " " + tempBlock.getLocation().getBlockZ());
                 tempBlock.getLocation().getBlock().setType(Material.AIR);
                 temporaryBlocks.poll();
             } else {
