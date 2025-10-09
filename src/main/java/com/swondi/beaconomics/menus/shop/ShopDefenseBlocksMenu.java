@@ -58,41 +58,4 @@ public class ShopDefenseBlocksMenu {
 
         return inventory;
     }
-
-    private static ItemStack createDefenseBlockItem(Material material, int health, int fuelConsumption, int price) {
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta meta = itemStack.getItemMeta();
-
-        if (meta != null) {
-            // Define custom namespace keys for persistent data
-            NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
-            NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
-            NamespacedKey defenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
-
-            // Set the custom model data for unique identification
-            meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
-            meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, price);
-            meta.getPersistentDataContainer().set(defenseKey, PersistentDataType.BYTE, (byte)1);
-
-            // Set custom name (e.g., "Mud Bricks" for the material name)
-            String name = Arrays.stream(material.name().replace("_", " ").split(" "))
-                .map((s) -> s.charAt(0) + s.substring(1).toLowerCase())
-                .collect(Collectors.joining(" "));
-            meta.setDisplayName("§6" + name);
-
-            // Set lore with health and price information
-            meta.setLore(List.of(
-                "§7Health: " + health + " HP",
-                "§7Fuel cost: " + fuelConsumption + " coal/h",
-                "§8-------------------------",
-                "§e§lPrice§7: §6$" + price,
-                "§8-------------------------",
-                "§aClick to purchase!"
-            ));
-
-            itemStack.setItemMeta(meta);
-        }
-
-        return itemStack;
-    }
 }

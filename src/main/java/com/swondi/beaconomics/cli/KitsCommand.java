@@ -4,6 +4,7 @@ import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.utils.Constants;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -56,10 +57,17 @@ public class KitsCommand implements CommandExecutor, TabCompleter {
                 messageBuilder.append(kitName).color(net.md_5.bungee.api.ChatColor.of(kitColor));
 
                 if (remainingTime > 0) {
-                    long minutes = remainingTime / 60000;
+                    long hours = remainingTime / 3600000;
+                    long minutes = (remainingTime % 3600000) / 60000;
                     long seconds = (remainingTime % 60000) / 1000;
 
-                    messageBuilder.append(" - §c" + minutes + "m " + seconds + "s §7until available").color(net.md_5.bungee.api.ChatColor.of("#FF0000"));
+                    if (hours > 0) {
+                        messageBuilder.append(" - " + ChatColor.RED + hours + "h ");
+                    }
+                    else {
+                        messageBuilder.append(" - " + ChatColor.RED);
+                    }
+                    messageBuilder.append(ChatColor.RED + "" + minutes + "m " + seconds + "s §7until available");
                 } else {
                     messageBuilder.append(" - §aAvailable now!").color(net.md_5.bungee.api.ChatColor.of("#00FF00"));
                 }

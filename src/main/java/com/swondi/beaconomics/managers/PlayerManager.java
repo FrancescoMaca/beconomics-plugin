@@ -11,21 +11,12 @@ import org.bukkit.plugin.Plugin;
 public class PlayerManager {
 
     private static final NamespacedKey nexusLevelKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_PERSIST_BEACON_LEVEL_KEY);
-    private static final NamespacedKey generatorSlotsKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_GENERATORS_SLOTS_KEY);
     private static final NamespacedKey starterKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_STARTER_KIT_COOLDOWN_KEY);
     private static final NamespacedKey sparkKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_SPARK_KIT_COOLDOWN_KEY);
     private static final NamespacedKey blazeKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_BLAZE_KIT_COOLDOWN_KEY);
     private static final NamespacedKey emberKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_EMBER_KIT_COOLDOWN_KEY);
     private static final NamespacedKey fireKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_FIRE_KIT_COOLDOWN_KEY);
     private static final NamespacedKey infernoKitKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PLAYER_INFERNO_KIT_COOLDOWN_KEY);
-
-    public static int getGeneratorSlots(Player player) {
-        return player.getPersistentDataContainer().getOrDefault(generatorSlotsKey, PersistentDataType.INTEGER, 5);
-    }
-
-    public static void setGeneratorSlots(Player player, int slots) {
-        player.getPersistentDataContainer().set(generatorSlotsKey, PersistentDataType.INTEGER, slots);
-    }
 
     public static int getBeaconLevel(Player player) {
         int level = player.getPersistentDataContainer().getOrDefault(nexusLevelKey, PersistentDataType.INTEGER, 1);

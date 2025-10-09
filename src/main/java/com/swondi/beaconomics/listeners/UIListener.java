@@ -5,7 +5,7 @@ import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.managers.BankManager;
 import com.swondi.beaconomics.managers.PlayerManager;
-import com.swondi.beaconomics.menus.nexus.BeaconMainMenu;
+import com.swondi.beaconomics.menus.nexus.*;
 import com.swondi.beaconomics.menus.shop.*;
 import com.swondi.beaconomics.models.Nexus;
 import com.swondi.beaconomics.scoreboards.Scoreboard;
@@ -25,11 +25,10 @@ import java.util.Objects;
 
 public class UIListener implements Listener {
 
-    // TODO: Review
     @EventHandler
     public void onItemClick(InventoryClickEvent event) {
         ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || !clicked.hasItemMeta()) return;
+        if (clicked == null) return;
 
         ItemMeta meta = clicked.getItemMeta();
 
@@ -67,9 +66,12 @@ public class UIListener implements Listener {
             event.setCancelled(true);
 
             String value = meta.getPersistentDataContainer().get(navigationKey, PersistentDataType.STRING);
-
             switch(Objects.requireNonNull(value)) {
                 case Constants.UI_NEXUS_MAIN_MENU_VALUE -> player.openInventory(BeaconMainMenu.build(player));
+                case Constants.UI_NEXUS_FUEL_MENU_VALUE -> player.openInventory(BeaconFuelMenu.build(player));
+                case Constants.UI_NEXUS_PICKUP_MENU_VALUE -> player.openInventory(BeaconPickupMenu.build());
+                case Constants.UI_NEXUS_TEAM_MENU_VALUE -> player.openInventory(BeaconTeamMenu.build());
+                case Constants.UI_NEXUS_UPGRADE_MENU_VALUE -> player.openInventory(BeaconUpgradeMenu.build(player));
                 case Constants.UI_SHOP_MAIN_MENU_VALUE -> player.openInventory(ShopMainMenu.build(player));
                 case Constants.UI_SHOP_GENS_MENU_VALUE -> player.openInventory(ShopGeneratorsMenu.build(player));
                 case Constants.UI_SHOP_UTILITY_BLOCKS_MENU_VALUE -> player.openInventory(ShopUtilityMenu.build(player));
@@ -181,16 +183,17 @@ public class UIListener implements Listener {
 
         NamespacedKey isGenKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_GENERATOR_TAG);
         NamespacedKey isDefenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
+        NamespacedKey isUtilityKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_UTILITY_BLOCK_TAG);
 
         ItemStack item;
 
         if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isGenKey)) {
             item = ItemStackCreator.createGenerator(event.getCurrentItem().getType(), true);
-        }
-        else if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isDefenseKey)) {
+        } else if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isDefenseKey)) {
             item = ItemStackCreator.createDefenseBlock(event.getCurrentItem().getType(), true);
-        }
-        else {
+        } else if (event.getCurrentItem().getItemMeta().getPersistentDataContainer().has(isUtilityKey)) {
+            item = ItemStackCreator.createUtilityBlock(event.getCurrentItem().getType(), true);
+        } else {
             item = ItemStackCreator.createTemporaryBlock(event.getCurrentItem().getType(), true);
         }
 

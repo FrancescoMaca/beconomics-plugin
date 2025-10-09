@@ -175,4 +175,41 @@ public class ItemStackCreator {
 
         return gen;
     }
+
+    public static ItemStack createUtilityBlock(Material type, boolean isDrop){
+        ItemStack item = new ItemStack(type);
+        ItemMeta meta = item.getItemMeta();
+
+        if (meta != null) {
+            // If it's not a drop then we add the shop lore and pdc values
+            if (!isDrop) {
+                NamespacedKey buyKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_ACTION_KEY);
+                NamespacedKey priceKey = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_PRICE_KEY);
+                meta.getPersistentDataContainer().set(buyKey, PersistentDataType.STRING, Constants.UI_SHOP_BUY_VALUE);
+                meta.getPersistentDataContainer().set(priceKey, PersistentDataType.INTEGER, Constants.DATA_UTILITY.get(type).price());
+            }
+
+            NamespacedKey utilityKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_UTILITY_BLOCK_TAG);
+            meta.getPersistentDataContainer().set(utilityKey, PersistentDataType.BYTE, (byte)1);
+            meta.setDisplayName(ChatColor.RESET + "" + type.name().charAt(0) + type.name().replaceAll("_", " ").substring(1).toLowerCase());
+
+            // Creating dynamic lore
+            List<String> lore = new ArrayList<>();
+            lore.add("§7You can place these blocks in your Nexus chunk.");
+            lore.add("§7These are tools to help you automate stuff and make");
+            lore.add("§7your life easier!");
+
+            if (!isDrop) {
+                lore.add("§8-------------------------");
+                lore.add("§e§lPrice§7: §6$" + getFormattedMoney(Constants.DATA_UTILITY.get(type).price()));
+                lore.add("§8-------------------------");
+                lore.add("§aClick to purchase!");
+            }
+
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+        }
+
+        return item;
+    }
 }

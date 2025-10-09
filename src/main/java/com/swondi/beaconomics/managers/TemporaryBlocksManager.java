@@ -7,7 +7,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
 import java.util.*;
 
 public class TemporaryBlocksManager {
@@ -17,6 +16,7 @@ public class TemporaryBlocksManager {
 
     // Add a temporary block to the queue
     public static void addTemporaryBlock(Location location, Material material, long durationMillis) {
+        Bukkit.broadcastMessage("Added temp block");
         TemporaryBlock tempBlock = new TemporaryBlock(location, material, System.currentTimeMillis() + durationMillis);
         temporaryBlocks.add(tempBlock);
         location.getBlock().setType(material);
@@ -35,6 +35,7 @@ public class TemporaryBlocksManager {
         while (!temporaryBlocks.isEmpty()) {
             TemporaryBlock tempBlock = temporaryBlocks.peek();
             if (tempBlock.getRemovalTime() <= System.currentTimeMillis()) {
+                Bukkit.broadcastMessage(">> Removing block at " + tempBlock.getLocation().getBlockX() + " " + tempBlock.getLocation().getBlockY() + " " + tempBlock.getLocation().getBlockZ());
                 tempBlock.getLocation().getBlock().setType(Material.AIR);
                 temporaryBlocks.poll();
             } else {

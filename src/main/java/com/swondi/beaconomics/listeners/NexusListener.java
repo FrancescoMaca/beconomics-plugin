@@ -1,9 +1,13 @@
 package com.swondi.beaconomics.listeners;
 
+import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.helpers.EntityHelper;
 import com.swondi.beaconomics.helpers.ItemStackCreator;
+import com.swondi.beaconomics.managers.GeneratorManager;
 import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.menus.nexus.BeaconMainMenu;
 import com.swondi.beaconomics.models.Nexus;
+import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -16,6 +20,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class NexusListener implements Listener {
 
@@ -23,7 +28,7 @@ public class NexusListener implements Listener {
      * When a block is broken it checks if it's a nexus, if it is, it removes it from the list
      */
     @EventHandler
-    public void onBeaconBreak(BlockBreakEvent event) {
+    public void onNexusBreak(BlockBreakEvent event) {
         Block block = event.getBlock();
 
         if (block.getType() != Material.BEACON) return;
@@ -102,8 +107,9 @@ public class NexusListener implements Listener {
 
         // Check if the player owns a nexus
         Nexus playerNexus = NexusManager.getNexus(player);
+
         if (playerNexus == null) {
-            player.sendMessage(ChatColor.RED + "You don't own a Nexus yet!");
+            player.sendMessage(ChatColor.RED + "You can't interact with somebody else's Nexus!");
             return;
         }
 
@@ -131,6 +137,13 @@ public class NexusListener implements Listener {
         Nexus nexusInChunk = NexusManager.getNexus(location);
 
         if (nexusInChunk != null && !nexusInChunk.getOwner().equals(player.getUniqueId())) {
+            ItemStack block = event.getItemInHand();
+            ItemMeta meta = block.getItemMeta();
+
+            if (meta == null || meta.getPersistentDataContainer().has(new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_TEMPORARY_BLOCK_TAG))) {
+                return;
+            }
+
             event.setCancelled(true);
             player.sendMessage(ChatColor.RED + "You cannot build too close to another player's Nexus!");
         }
@@ -148,6 +161,7 @@ public class NexusListener implements Listener {
 
         // Players can destroy the Nexus
         if (event.getBlock().getType() == Material.BEACON) return;
+        if (GeneratorManager.isAGeneratorLocation(event.getBlock().getLocation())) return;
 
         // Cancel if chunk has a Nexus and the player is not the owner
         if (nexusInChunk != null && !nexusInChunk.getOwner().equals(player.getUniqueId())) {

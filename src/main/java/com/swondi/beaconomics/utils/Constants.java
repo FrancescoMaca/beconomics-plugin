@@ -31,10 +31,10 @@ public class Constants {
     public static final String PDC_GENERATOR_TAG = "is_generator";
     public static final String PDC_TEMPORARY_BLOCK_TAG = "is_temporary";
     public static final String PDC_DEFENSE_BLOCK_TAG = "is_defense";
+    public static final String PDC_UTILITY_BLOCK_TAG = "is_utility";
 
     // Players keys for persistent values
     public static final String PLAYER_PERSIST_BEACON_LEVEL_KEY = "data_player_beacon_level";
-    public static final String PLAYER_GENERATORS_SLOTS_KEY = "data_player_generators_slots";
     public static final String PLAYER_STARTER_KIT_COOLDOWN_KEY = "data_player_starter_kit_cooldown";
     public static final String PLAYER_SPARK_KIT_COOLDOWN_KEY = "data_player_spark_kit_cooldown";
     public static final String PLAYER_BLAZE_KIT_COOLDOWN_KEY = "data_player_blaze_kit_cooldown";
@@ -52,6 +52,11 @@ public class Constants {
     public static final String UI_PRICE_KEY = "price_key";
     public static final String UI_NEXUS_PICKUP_VALUE = "nexus_pick_up";
     public static final String UI_NEXUS_MAIN_MENU_VALUE = "nexus_main_menu";
+    public static final String UI_NEXUS_FUEL_MENU_VALUE = "nexus_fuel_menu";
+    public static final String UI_NEXUS_PICKUP_MENU_VALUE = "nexus_pickup_menu";
+    public static final String UI_NEXUS_TEAM_MENU_VALUE = "nexus_team_menu";
+    public static final String UI_NEXUS_UPGRADE_MENU_VALUE = "nexus_upgrade_menu";
+
     public static final String UI_SHOP_BUY_VALUE = "shop_buy";
     public static final String UI_SHOP_MAIN_MENU_VALUE = "shop_main_menu";
     public static final String UI_SHOP_TEMP_BLOCKS_MENU_VALUE = "shop_temps_menu";
@@ -62,12 +67,12 @@ public class Constants {
     public static final String UI_BEACON_LEVEL_KEY = "buy_beacon_level_";
 
     public static final Map<String, KitData> DATA_KITS = new HashMap<>() {{
-        put("Starter", new KitData(600));
-        put("Spark", new KitData(1440));
-        put("Blaze", new KitData(1440));
-        put("Ember", new KitData(1440));
-        put("Fire", new KitData(1440));
-        put("Inferno", new KitData(1440));
+        put("Starter", new KitData(300));
+        put("Spark", new KitData(86400));
+        put("Blaze", new KitData(86400));
+        put("Ember", new KitData(86400));
+        put("Fire", new KitData(86400));
+        put("Inferno", new KitData(86400));
     }};
 
     public static final Map<Material, DefenseBlockData> DATA_DEFENSE_BLOCKS = new HashMap<>() {{
@@ -94,6 +99,14 @@ public class Constants {
         put(Material.QUARTZ_BLOCK, new TemporaryBlockData(1500));
         put(Material.RED_SANDSTONE, new TemporaryBlockData(1100));
         put(Material.PURPUR_BLOCK, new TemporaryBlockData(1300));
+    }};
+
+    public static final Map<Material, UtilityBlockData> DATA_UTILITY = new HashMap<>() {{
+        put(Material.WATER_BUCKET, new UtilityBlockData(1000));
+        put(Material.HOPPER, new UtilityBlockData(5000));
+        put(Material.CHEST, new UtilityBlockData(2500));
+        put(Material.LADDER, new UtilityBlockData(1500));
+        put(Material.TORCH, new UtilityBlockData(500));
     }};
 
     public static final Map<String, RankData> RANKS = new HashMap<>() {{
@@ -129,9 +142,10 @@ public class Constants {
         put(Material.BROWN_GLAZED_TERRACOTTA, new GeneratorData(35000000, 140, "Brown Generator", "Brown Candle", Material.BROWN_CANDLE, ChatColor.GOLD));
     }};
 
-    public record TemporaryBlockData(int price) {}
     public record KitData(int cooldown) {}
-    public record GeneratorData(int price, int rate, String name, String dropName, Material dropType, ChatColor color) {}
     public record RankData(String name, int eChestLayers) {}
+    public record GeneratorData(int price, int rate, String name, String dropName, Material dropType, ChatColor color) {}
     public record DefenseBlockData(double fuelConsumption, int health, int price) { }
+    public record TemporaryBlockData(int price) {}
+    public record UtilityBlockData(int price) {}
 }

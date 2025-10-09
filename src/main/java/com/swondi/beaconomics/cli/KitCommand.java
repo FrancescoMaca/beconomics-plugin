@@ -3,9 +3,11 @@ package com.swondi.beaconomics.cli;
 import com.swondi.beaconomics.animations.KitAnimation;
 import com.swondi.beaconomics.managers.KitManager;
 import com.swondi.beaconomics.managers.PDCManager;
+import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.models.Kit;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
 import com.swondi.beaconomics.helpers.CommandHelper;
+import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
@@ -82,6 +84,19 @@ public class KitCommand implements CommandExecutor, TabCompleter {
             return;
         }
 
+        String name = kitName.split(" ")[0];
+        long lastAcquired = PlayerManager.getKitAcquisitionTime(player, name);
+        long cooldownTime = Constants.DATA_KITS.get(name).cooldown() * 1000L;
+        long remainingTime = lastAcquired + cooldownTime - System.currentTimeMillis();
+
+        if (remainingTime > 0) {
+
+            player.sendMessage(formatTime(remainingTime));
+            return;
+        }
+
+        PlayerManager.setKitAcquisitionTime(player, name);
+
         player.sendMessage("Your " + kitName + " is arriving....");
 
         Location dropLocation = player.getLocation().clone();
@@ -125,4 +140,20 @@ public class KitCommand implements CommandExecutor, TabCompleter {
 
         return List.of();
     }
+
+    private String formatTime(long remainingTime) {
+        long hours = remainingTime / 3600000;
+        long min = (remainingTime % 3600000) / 60000;
+        long sec = (remainingTime % 60000) / 1000;
+        String message = ChatColor.RED + "You still need to wait ";
+
+        if (hours > 0) message += hours + "h ";
+        if (min > 0) message += min + "m ";
+        if (sec > 0) message += sec + "s ";
+
+        message += "before using this kit again!";
+
+        return message;
+    }
+
 }

@@ -51,7 +51,6 @@ public class TemporaryBlocksListener implements Listener {
         PersistentDataContainer pdc = item.getItemMeta().getPersistentDataContainer();
 
         if (pdc.has(tempKey, PersistentDataType.BYTE)) {
-            Bukkit.getLogger().info("Placing temporary block at " + event.getBlock().getLocation());
             Block block = event.getBlock();
             TemporaryBlocksManager.addTemporaryBlock(block.getLocation(), block.getType(), 10000);
         }

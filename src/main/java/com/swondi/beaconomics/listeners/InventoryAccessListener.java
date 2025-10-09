@@ -1,25 +1,18 @@
 package com.swondi.beaconomics.listeners;
 
-import com.swondi.beaconomics.menus.nexus.BeaconFuelMenu;
-import com.swondi.beaconomics.menus.nexus.BeaconPickupMenu;
-import com.swondi.beaconomics.menus.nexus.BeaconTeamMenu;
-import com.swondi.beaconomics.menus.nexus.BeaconUpgradeMenu;
 import com.swondi.beaconomics.utils.Constants;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class InventoryActionListener implements Listener {
+public class InventoryAccessListener implements Listener {
 
+    // List of completely locked menus
     private static final List<String> lockedMenus = new ArrayList<>() {{
         add(Constants.BEACON_MAIN_MENU_TITLE);
         add(Constants.BEACON_PICKUP_MENU_TITLE);
@@ -33,43 +26,23 @@ public class InventoryActionListener implements Listener {
         add(Constants.SHOP_UTILITY_BLOCKS_MENU_TITLE);
     }};
 
-    /**
-     * A map of inventories that can be partially accessed. The list of number represents
-     * the indexes that ARE LOCKED.
-     */
+    // Map of partially locked menus with specific locked slots
     private static final Map<String, List<Integer>> partiallyLockedMenus = new HashMap<>() {{
         put(Constants.BEACON_FUEL_MENU_TITLE, List.of(0, 1, 9, 10, 18, 19));
     }};
 
     @EventHandler
     public void onMenuClick(InventoryClickEvent event) {
-        if (!isMenuLocked(event)) {
-            return;
-        }
-
-        // prevent moving items
-        event.setCancelled(true);
-
-        Player player = (Player) event.getWhoClicked();
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked == null || clicked.getType() == Material.AIR) return;
-
-        switch (clicked.getType()) {
-            case BARRIER -> player.openInventory(BeaconPickupMenu.build());
-            case CHEST -> {
-                var beaconFuelMenu = BeaconFuelMenu.build(player);
-                if (beaconFuelMenu != null) {
-                    player.openInventory(beaconFuelMenu);
-                }
-            }
-            case BLAZE_POWDER -> player.openInventory(BeaconUpgradeMenu.build(player));
-            case PLAYER_HEAD -> player.openInventory(BeaconTeamMenu.build());
+        if (isMenuLocked(event)) {
+            event.setCancelled(true);
         }
     }
 
     /**
-     * Checks if a menu is locked
-     * @return true if the menu or the user click is locked and not accessible, otherwise false
+     * Checks if a menu or a specific slot is locked, preventing interaction.
+     *
+     * @param event the InventoryClickEvent
+     * @return true if the menu or the slot clicked is locked, false otherwise
      */
     private boolean isMenuLocked(InventoryClickEvent event) {
         final String menuName = event.getView().getTitle();
@@ -79,15 +52,13 @@ public class InventoryActionListener implements Listener {
             return false;
         }
 
-
-        // Returns false if the menu is listed in the locked ones
+        // Check if the menu is fully locked
         if (lockedMenus.contains(menuName)) {
             return true;
         }
 
-        // returns false if the menu is partially locked and the slot clicked is among the locked ones
+        // Check if the menu is partially locked and the clicked slot is locked
         List<Integer> lockedSlots = partiallyLockedMenus.get(menuName);
-
         return lockedSlots != null && lockedSlots.contains(event.getSlot());
     }
 }

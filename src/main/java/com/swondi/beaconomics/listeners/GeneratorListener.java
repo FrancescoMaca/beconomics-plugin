@@ -19,11 +19,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GeneratorListener implements Listener {
@@ -67,14 +66,14 @@ public class GeneratorListener implements Listener {
         Nexus existingNexus = NexusManager.getNexus(player);
 
         if (existingNexus == null) {
-            player.sendMessage(ChatColor.RED + "You can only place generators when you have a Nexus placed!");
             event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "You can only place generators when you have a Nexus placed!");
             return;
         }
 
         if (!block.getChunk().equals(existingNexus.getLocation().getChunk())) {
-            player.sendMessage(ChatColor.RED + "You can only place generators in the same chunk as your Nexus!");
             event.setCancelled(true);
+            player.sendMessage(ChatColor.RED + "You can only place generators in the same chunk as your Nexus!");
             return;
         }
 

@@ -80,8 +80,6 @@ public class ChestListener implements Listener {
         DropCleanupTask.removeChest("");
     }
 
-
-
     /**
      * Automatically destroys a kit chest when its empty
      */
@@ -113,12 +111,12 @@ public class ChestListener implements Listener {
         }
     }
 
-    //TODO check if best way of doing this
-    @EventHandler
-    public void onInventoryClick(InventoryClickEvent event) {
-        ItemStack clicked = event.getCurrentItem();
-        if (clicked != null && clicked.getType() == Material.BLACK_STAINED_GLASS_PANE) {
-            event.setCancelled(true);
-        }
-    }
+//    //TODO check if best way of doing this
+//    @EventHandler
+//    public void onInventoryClick(InventoryClickEvent event) {
+//        ItemStack clicked = event.getCurrentItem();
+//        if (clicked != null && clicked.getType() == Material.BLACK_STAINED_GLASS_PANE) {
+//            event.setCancelled(true);
+//        }
+//    }
 }

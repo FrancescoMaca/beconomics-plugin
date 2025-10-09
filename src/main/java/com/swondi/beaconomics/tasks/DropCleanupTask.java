@@ -32,7 +32,7 @@ public class DropCleanupTask extends BukkitRunnable {
             if (System.currentTimeMillis() >= (chest.getCreatedAt() + 90_000)) {
                 Bukkit.getWorld("world").spawnParticle(
                     Particle.CRIMSON_SPORE,
-                    chest.getLocation().add(0.5, 0.5, 0.5),
+                    chest.getLocation().clone().add(0.5, 0.5, 0.5),
                     50, 0.1, 0.1, 0.1
                 );
 

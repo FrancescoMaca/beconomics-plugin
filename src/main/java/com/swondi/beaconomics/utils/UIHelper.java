@@ -14,11 +14,14 @@ public class UIHelper {
         final ItemStack backArrow = new ItemStack(Material.ARROW);
         ItemMeta meta = backArrow.getItemMeta();
 
-        NamespacedKey key = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_NAVIGATE_KEY);
-        meta.setDisplayName(ChatColor.GRAY + "Back");
-        meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, action_key);
+        if (meta != null){
+            NamespacedKey key = new NamespacedKey(Beaconomics.getInstance(), Constants.UI_NAVIGATE_KEY);
 
-        backArrow.setItemMeta(meta);
+            meta.setDisplayName(ChatColor.GRAY + "Back");
+            meta.getPersistentDataContainer().set(key, PersistentDataType.STRING, action_key);
+            backArrow.setItemMeta(meta);
+        }
+
         return backArrow;
     }
 }
