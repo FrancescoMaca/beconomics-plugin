@@ -22,8 +22,14 @@ public class DefenseBlockListener implements Listener {
 
     @EventHandler
     public void onDefenseBlockBreak(BlockBreakEvent event) {
+        Block block = event.getBlock();
 
+        //if (!DefenseBlocksManager.isDefense(block.getLocation())) return;
+
+        event.setCancelled(true);
+        DefenseBlocksManager.damageDefense(block.getLocation(), 20); // esempio: 20 danni
     }
+
 
     @EventHandler
     public void onDefenseBlockPlace(BlockPlaceEvent event) {

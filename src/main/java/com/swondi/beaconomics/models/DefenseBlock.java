@@ -7,10 +7,13 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.util.UUID;
+
 public class DefenseBlock {
     private final Location location;
     private final Material type;
     private int health;
+    private final UUID nexusOwner;
 
     public double getFuelConsumption() {
         return Constants.DATA_DEFENSE_BLOCKS.get(type).fuelConsumption();
@@ -32,18 +35,22 @@ public class DefenseBlock {
         this.health = health;
     }
 
+    public UUID getNexusOwner() { return nexusOwner; }
+
     public Material getType() {
         return type;
     }
 
-    public DefenseBlock(Location location, Material type, int health) {
+    public DefenseBlock(Location location, Material type, int health, UUID nexusOwner) {
         this.location = location;
         this.type = type;
         this.health = health;
+        this.nexusOwner = nexusOwner;
     }
-    public DefenseBlock(Location location, Material type) {
+    public DefenseBlock(Location location, Material type, UUID nexusOwner) {
         this.location = location;
         this.type = type;
+        this.nexusOwner = nexusOwner;
 
         // Default health
         this.health = Constants.DATA_DEFENSE_BLOCKS.get(type).health();
@@ -53,7 +60,7 @@ public class DefenseBlock {
     public void saveToYaml(YamlManager yaml) {
         String path = "defense." + getId();
 
-        yaml.set(path + ".type", type);
+        yaml.set(path + ".type", type.name());
         yaml.set(path + ".health", health);
     }
 
