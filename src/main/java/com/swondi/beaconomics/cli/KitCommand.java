@@ -89,8 +89,7 @@ public class KitCommand implements CommandExecutor, TabCompleter {
         long cooldownTime = Constants.DATA_KITS.get(name).cooldown() * 1000L;
         long remainingTime = lastAcquired + cooldownTime - System.currentTimeMillis();
 
-        if (remainingTime > 0) {
-
+        if (remainingTime > 0 && !player.hasPermission("beaconomics.kit.bypasscooldown")) {
             player.sendMessage(formatTime(remainingTime));
             return;
         }

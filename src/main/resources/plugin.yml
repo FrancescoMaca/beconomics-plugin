@@ -57,6 +57,9 @@ permissions:
   beaconomics.enderchest.use:
     description: Allows the player to use the Starter Kit
     default: op
+  beaconomics.kit.bypasscooldown:
+    description: Bypasses the kit cooldown
+    default: op
   beaconomics.kit.starter:
     description: Allows the player to use the Starter Kit
     default: true

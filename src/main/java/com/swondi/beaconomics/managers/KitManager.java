@@ -1,7 +1,6 @@
 package com.swondi.beaconomics.managers;
 
 import com.swondi.beaconomics.helpers.ItemStackCreator;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -79,7 +78,10 @@ public class KitManager {
         inv.setItem(13, createArmor(Material.LEATHER_CHESTPLATE, "§fStarter Chestplate"));
         inv.setItem(14, createArmor(Material.LEATHER_HELMET, "§fStarter Helmet"));
         inv.setItem(15, createItemStack(Material.WOODEN_SWORD, "§fStarter Sword"));
+        inv.setItem(21, ItemStackCreator.createGenerator(Material.WHITE_WOOL, true, 2));
         inv.setItem(22, createItemStack(Material.WOODEN_PICKAXE, "§fStarter Pickaxe"));
+        inv.setItem(23, ItemStackCreator.createGenerator(Material.WHITE_WOOL, true, 2));
+
     }
 
     // ───────────────────────────────

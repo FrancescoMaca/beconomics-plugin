@@ -42,14 +42,14 @@ public class ItemStackCreator {
      *               in their inventory. Otherwise, if set to false the item will be made ready for the shop inventory.
      * @return the formatted item stack.
      */
-    public static ItemStack createGenerator(Material type, boolean isDrop) {
+    public static ItemStack createGenerator(Material type, boolean isDrop, int amount) {
         Constants.GeneratorData data = Constants.DATA_GENERATORS.get(type);
 
         if (data == null) {
             return null;
         }
 
-        ItemStack gen = new ItemStack(type);
+        ItemStack gen = new ItemStack(type, amount);
         ItemMeta meta = gen.getItemMeta();
 
         if (meta != null) {
@@ -89,6 +89,10 @@ public class ItemStackCreator {
         }
 
         return gen;
+    }
+
+    public static ItemStack createGenerator(Material type, boolean isDrop) {
+        return createGenerator(type, isDrop, 1);
     }
 
     public static ItemStack createTemporaryBlock(Material type, boolean isDrop) {
