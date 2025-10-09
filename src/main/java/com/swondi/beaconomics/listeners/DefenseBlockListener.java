@@ -15,23 +15,21 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 
 public class DefenseBlockListener implements Listener {
 
     @EventHandler
-    public void onBlockBreak(BlockBreakEvent event) {
-//        DefenseBlocksManager.removeTemporaryBlock(event.getBlock().getLocation());
+    public void onDefenseBlockBreak(BlockBreakEvent event) {
+
     }
 
     @EventHandler
-    public void onPlace(BlockPlaceEvent event) {
-        Block block = event.getBlockPlaced();
-        Material mat = block.getType();
-
+    public void onDefenseBlockPlace(BlockPlaceEvent event) {
         ItemMeta handMeta = event.getItemInHand().getItemMeta();
+
+        if (handMeta == null) return;
 
         PersistentDataContainer pdc = handMeta.getPersistentDataContainer();
         NamespacedKey defenseKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);

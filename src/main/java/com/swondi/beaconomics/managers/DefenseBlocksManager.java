@@ -2,13 +2,8 @@ package com.swondi.beaconomics.managers;
 
 import com.swondi.beaconomics.models.DefenseBlock;
 import com.swondi.beaconomics.utils.Constants;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
-import org.bukkit.block.Block;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 
 import java.util.HashMap;
 import java.util.Map;

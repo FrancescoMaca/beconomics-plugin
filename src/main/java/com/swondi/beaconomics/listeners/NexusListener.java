@@ -40,7 +40,10 @@ public class NexusListener implements Listener {
         Nexus nexus = NexusManager.getNexus(block.getChunk());
         NexusManager.unregisterNexus(block);
 
-        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.COAL, nexus.getFuelAmount()));
+        if (nexus.getFuelAmount() > 0) {
+            block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.COAL, nexus.getFuelAmount()));
+        }
+
         block.getLocation().getWorld().dropItemNaturally(block.getLocation(), ItemStackCreator.createNexus());
     }
 
