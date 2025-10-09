@@ -1,6 +1,8 @@
 package com.swondi.beaconomics.cli;
 
 
+import com.swondi.beaconomics.managers.BankManager;
+import com.swondi.beaconomics.managers.PlayerDataManager;
 import com.swondi.beaconomics.managers.YamlManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,30 +37,28 @@ public class BalanceTopCommand implements CommandExecutor {
                 return true;
             }
         } else if (args.length >= 1) {
-            sender.sendMessage("§cIncorrect usage. Please use: /" + label +  " [number]");
+            sender.sendMessage("§cUsage: /" + label +  " [number]");
             return true;
         }
 
-        Map<String, Double> totalBalances = new HashMap<>();
-        //FIXME find a more efficient way without use disk access
+        Map<String, Integer> totalBalances = new HashMap<>();
         for (String uuidStr : yaml.getConfiguration().getKeys(false)) {
-            double onHand = yaml.getConfiguration().getDouble(uuidStr + ".onhand", 0);
-            double bank = yaml.getConfiguration().getDouble(uuidStr + ".bank.amount", 0);
-            double total = onHand + bank;
+            int onHand = yaml.getInt(uuidStr + ".onhand");
+            int bank = yaml.getInt(uuidStr + ".bank.amount");
+            int total = onHand + bank;
 
-            OfflinePlayer offPlayer = Bukkit.getOfflinePlayer(UUID.fromString(uuidStr));
-            String name = offPlayer.getName() != null ? offPlayer.getName() : uuidStr;
+            String name = PlayerDataManager.getName(UUID.fromString(uuidStr));
 
             totalBalances.put(name, total);
         }
-
-        List<Map.Entry<String, Double>> sorted = new ArrayList<>(totalBalances.entrySet());
+        List<Map.Entry<String, Integer>> sorted = new ArrayList<>(totalBalances.entrySet());
         sorted.sort((a, b) -> Double.compare(b.getValue(), a.getValue()));
 
         sender.sendMessage("§6§lServer Top Balance:");
+
         int pos = 1;
-        for (Map.Entry<String, Double> entry : sorted.stream().limit(limit).toList()) {
-            sender.sendMessage("§e#" + pos + " §f" + entry.getKey() + " §7- §a" + String.format("%.2f", entry.getValue()) + "K");
+        for (Map.Entry<String, Integer> entry : sorted.stream().limit(limit).toList()) {
+            sender.sendMessage("§e#" + pos + " §f" + entry.getKey() + " §7- §a" + BankManager.getFormattedMoney(entry.getValue()) + "$");
             pos++;
         }
 
