@@ -140,6 +140,7 @@ public class UIListener implements Listener {
         Nexus beaconBlock = NexusManager.getNexus(player);
 
         if (beaconBlock != null) {
+            beaconBlock.getLocation().getWorld().dropItemNaturally(beaconBlock.getLocation(), new ItemStack(Material.COAL, beaconBlock.getFuelAmount()));
             player.getInventory().addItem(ItemStackCreator.createNexus());
 
             NexusManager.unregisterNexus(beaconBlock.getLocation().getBlock());

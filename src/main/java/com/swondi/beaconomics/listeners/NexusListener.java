@@ -33,18 +33,14 @@ public class NexusListener implements Listener {
 
         if (block.getType() != Material.BEACON) return;
 
-        NexusManager.unregisterNexus(block);
-
-        // If player is in creative does not drop the beacon
-        if (event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-            event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_GLASS_BREAK, 0.5f, 1.7f);
-            return;
-        }
-
         // Otherwise overrides the default drop with a custom one
         event.setDropItems(false);
         event.getPlayer().getWorld().playSound(event.getPlayer().getLocation(), Sound.BLOCK_GLASS_BREAK, 0.5f, 1.7f);
 
+        Nexus nexus = NexusManager.getNexus(block.getChunk());
+        NexusManager.unregisterNexus(block);
+
+        block.getLocation().getWorld().dropItemNaturally(block.getLocation(), new ItemStack(Material.COAL, nexus.getFuelAmount()));
         block.getLocation().getWorld().dropItemNaturally(block.getLocation(), ItemStackCreator.createNexus());
     }
 
@@ -52,7 +48,7 @@ public class NexusListener implements Listener {
      * Monitors when a nexus is placed
      */
     @EventHandler
-    public void onBeaconPlace(BlockPlaceEvent event) {
+    public void onNexusPlace(BlockPlaceEvent event) {
         ItemStack nexusItem = event.getItemInHand();
         Player player = event.getPlayer();
         Block nexus = event.getBlock();
@@ -92,15 +88,14 @@ public class NexusListener implements Listener {
      * @param event the event to place block
      */
     @EventHandler
-    public void onBeaconRightClick(PlayerInteractEvent event) {
+    public void onNexusRightClick(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
         Block clickedBlock = event.getClickedBlock();
         Player player = event.getPlayer();
 
-        // Only handle BEACON clicks
         if (clickedBlock == null || clickedBlock.getType() != Material.BEACON) {
-            return; // just ignore, don’t send a message
+            return;
         }
 
         event.setCancelled(true);

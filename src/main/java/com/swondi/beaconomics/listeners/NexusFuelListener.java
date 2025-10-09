@@ -1,15 +1,12 @@
 package com.swondi.beaconomics.listeners;
 
 import com.swondi.beaconomics.managers.NexusManager;
-import com.swondi.beaconomics.managers.YamlManager;
 import com.swondi.beaconomics.menus.nexus.BeaconFuelMenu;
 import com.swondi.beaconomics.models.Nexus;
 import com.swondi.beaconomics.utils.Constants;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -18,7 +15,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class NexusFuelListener implements Listener {
-    private final static YamlManager yaml = new YamlManager("nexuses.yml");
     private final static Material fuel = Material.COAL;
 
     @EventHandler
