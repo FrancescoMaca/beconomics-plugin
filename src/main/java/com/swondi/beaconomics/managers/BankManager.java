@@ -22,8 +22,7 @@ public class BankManager {
             int onhand = config.getInt(uuidString + ".onhand", 0);
 
             // Retrieve the player's bank money (if present)
-            int bank = config.contains(uuidString + ".bank.amount") ?
-                    config.getInt(uuidString + ".bank.amount", 0) : 0;
+            int bank = config.contains(uuidString + ".bank.amount") ? config.getInt(uuidString + ".bank.amount", 0) : 0;
 
             // Calculate total money and put it in the map
             int totalMoney = onhand + bank;

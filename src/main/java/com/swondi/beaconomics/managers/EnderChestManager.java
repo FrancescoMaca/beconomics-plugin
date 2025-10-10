@@ -3,16 +3,13 @@ package com.swondi.beaconomics.managers;
 import com.swondi.beaconomics.Beaconomics;
 import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.configuration.MemorySection;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EnderChestManager {
 
@@ -28,8 +25,6 @@ public class EnderChestManager {
         // Optionally, cache the inventory in memory if needed
         echests.put(player.getUniqueId(), inventory);
 
-        String ss = Arrays.stream(inventory.getContents()).filter(Objects::nonNull).map((s) -> s.getType().name()).collect(Collectors.joining(", "));
-
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -37,17 +32,17 @@ public class EnderChestManager {
 
                 // Prepare a map to save non-null items and their positions
                 Map<Integer, ItemStack> itemsWithPositions = new HashMap<>();
-                int i = 0;
+
                 // Save each item and its position (null items are skipped)
                 for (int slot = 0; slot < inventory.getSize(); slot++) {
                     ItemStack item = inventory.getItem(slot);
-                    if (item != null) {
-                        i++;
-                        itemsWithPositions.put(slot, item);
-                    } else {
-                        // Save null items if you want to keep empty slots
-                        itemsWithPositions.put(slot, null);
-                    }
+
+                    // Save null items if you want to keep empty slots
+                    itemsWithPositions.put(slot, item);
+                }
+
+                for (int slot = 0; slot < 54 - inventory.getSize(); slot++) {
+                    itemsWithPositions.put(slot, null);
                 }
 
                 // Save the inventory contents to file
@@ -70,6 +65,15 @@ public class EnderChestManager {
         // If not cached, load it from disk
         YamlManager yamlManager = new YamlManager("echest/" + player.getUniqueId() + ".yml");
         MemorySection echestContent = (MemorySection) yamlManager.get("enderchest");
+
+        if (echestContent == null) {
+            yamlManager.set("enderchest", null);
+            yamlManager.save();
+
+            yamlManager = new YamlManager("echest/" + player.getUniqueId() + ".yml");
+            echestContent = (MemorySection) yamlManager.get("enderchest");
+        }
+
         Inventory inventory = Bukkit.createInventory(player, 54, Constants.ENDER_CHEST_TITLE);
 
         // Iterate through each slot (key) in the ender chest data

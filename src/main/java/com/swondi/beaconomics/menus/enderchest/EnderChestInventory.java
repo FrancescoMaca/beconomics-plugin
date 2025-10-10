@@ -18,12 +18,11 @@ public class EnderChestInventory {
         }
 
         Inventory cached = EnderChestManager.getEchest(player);
+
         Inventory inventory = Bukkit.createInventory(player, playerRank.eChestLayers() * 9, Constants.ENDER_CHEST_TITLE);
 
-        if (cached != null) {
-            for (int i = 0; i < playerRank.eChestLayers() * 9; i++) {
-                inventory.setItem(i, cached.getContents()[i]);
-            }
+        for (int i = 0; i < Math.min(playerRank.eChestLayers() * 9, cached.getSize()); i++) {
+            inventory.setItem(i, cached.getItem(i));
         }
 
         return inventory;

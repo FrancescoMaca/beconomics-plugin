@@ -153,7 +153,7 @@ public class ItemStackCreator {
             NamespacedKey defenseTagKey = new NamespacedKey(Beaconomics.getInstance(), Constants.PDC_DEFENSE_BLOCK_TAG);
             meta.getPersistentDataContainer().set(defenseTagKey, PersistentDataType.BYTE, (byte)1);
             String formattedName = type.name().replaceAll("_", " ");
-            meta.setDisplayName(ChatColor.BOLD + (formattedName.charAt(0) + formattedName.substring(1).toLowerCase()));
+            meta.setDisplayName(ChatColor.RESET + (formattedName.charAt(0) + formattedName.substring(1).toLowerCase()));
 
             // Creating dynamic lore
             List<String> lore = new ArrayList<>();
@@ -215,5 +215,33 @@ public class ItemStackCreator {
         }
 
         return item;
+    }
+
+    public static ItemStack createGrenade() {
+        ItemStack grenade = new ItemStack(Material.FIRE_CHARGE);
+
+        // Get the item meta for the grenade
+        ItemMeta meta = grenade.getItemMeta();
+        if (meta == null) {
+            return grenade;  // Return the grenade as is if the meta is null
+        }
+
+        // Set the display name for the grenade (it will show up as a grenade in inventory)
+        meta.setDisplayName(ChatColor.RED + "Grenade");
+
+        // Add lore to explain what the item is (optional)
+        meta.setLore(java.util.Arrays.asList(
+            ChatColor.GRAY + "Right-click to throw the grenade!",
+            ChatColor.RED + "Deals explosion damage to nearby entities and blocks"
+        ));
+
+        // Add custom tag to identify the item as a grenade (use a PersistentDataContainer for this)
+        NamespacedKey grenadeKey = new NamespacedKey(Beaconomics.getInstance(), "grenade");
+        meta.getPersistentDataContainer().set(grenadeKey, PersistentDataType.BYTE, (byte) 1);
+
+        // Set the meta for the grenade
+        grenade.setItemMeta(meta);
+
+        return grenade;
     }
 }

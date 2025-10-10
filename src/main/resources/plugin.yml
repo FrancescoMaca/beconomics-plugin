@@ -49,6 +49,9 @@ commands:
   system:
     description: Handles all UI related command
     usage: ""
+  admin:
+    description: Admin commands
+    usage: ""
 
 permissions:
   beaconomics.bugreport.create:

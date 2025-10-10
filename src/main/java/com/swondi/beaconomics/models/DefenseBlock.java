@@ -5,7 +5,6 @@ import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 
 public class DefenseBlock {
     private final Location location;
@@ -53,7 +52,7 @@ public class DefenseBlock {
     public void saveToYaml(YamlManager yaml) {
         String path = "defense." + getId();
 
-        yaml.set(path + ".type", type);
+        yaml.set(path + ".type", type.name());
         yaml.set(path + ".health", health);
     }
 

@@ -2,6 +2,7 @@ package com.swondi.beaconomics.listeners;
 
 import com.swondi.beaconomics.managers.EnderChestManager;
 import com.swondi.beaconomics.utils.Constants;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

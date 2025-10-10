@@ -10,6 +10,7 @@ import com.swondi.beaconomics.managers.*;
 import com.swondi.beaconomics.tasks.BackupTask;
 import com.swondi.beaconomics.tasks.DropCleanupTask;
 import com.swondi.beaconomics.tasks.GeneratorTask;
+import net.luckperms.api.LuckPerms;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -51,9 +52,14 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CombatListener(), this);
         getServer().getPluginManager().registerEvents(new CombatLogoutListener(), this);
 
+        getServer().getPluginManager().registerEvents(new GrenadeListener(), this);
+
         // Binds luckperms API listener
+        LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+        new LuckPermsListener(luckPerms).register();
 
         // Setup commands
+        Objects.requireNonNull(getCommand("admin")).setExecutor(new AdminCommands());
         Objects.requireNonNull(getCommand("spawn")).setExecutor(new SpawnCommand());
         Objects.requireNonNull(getCommand("bugreport")).setExecutor(new BugReportCommand());
         Objects.requireNonNull(getCommand("sethome")).setExecutor(new SetHomeCommand());

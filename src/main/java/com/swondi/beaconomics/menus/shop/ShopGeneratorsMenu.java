@@ -1,23 +1,18 @@
 package com.swondi.beaconomics.menus.shop;
 
-import com.swondi.beaconomics.Beaconomics;
 import com.swondi.beaconomics.helpers.ItemStackCreator;
 import com.swondi.beaconomics.managers.PlayerManager;
 import com.swondi.beaconomics.utils.Constants;
 import com.swondi.beaconomics.utils.UIHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.List;
-
-import static com.swondi.beaconomics.managers.BankManager.getFormattedMoney;
 
 public class ShopGeneratorsMenu {
 
@@ -43,21 +38,21 @@ public class ShopGeneratorsMenu {
             inventory.setItem(border, separator);
         }
 
-        if (playerLevel >= 2) {
+        if (playerLevel >= 1) {
             buildWoolRow(inventory);
         }
         else {
             buildLockedRow(inventory, 1);
         }
 
-        if (playerLevel >= 3) {
+        if (playerLevel >= 2) {
             buildConcreteRow(inventory);
         }
         else {
             buildLockedRow(inventory, 2);
         }
 
-        if (playerLevel >= 4) {
+        if (playerLevel >= 3) {
             buildTerracottaRow(inventory);
         }
         else {
