@@ -1,9 +1,15 @@
 package com.swondi.beaconomics.tasks;
 
 import com.swondi.beaconomics.Beaconomics;
+import com.swondi.beaconomics.managers.NexusManager;
 import com.swondi.beaconomics.managers.YamlManager;
 import com.swondi.beaconomics.models.Generator;
+import com.swondi.beaconomics.models.Nexus;
+import com.swondi.beaconomics.utils.Constants;
 import org.bukkit.*;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -37,6 +43,19 @@ public class GeneratorTask extends BukkitRunnable {
 
     @Override
     public void run() {
+
+        if (generators.isEmpty()) {
+            return;
+        }
+
+        Generator instance = (Generator) generators.toArray()[0];
+        Nexus nexus = NexusManager.getNexus(instance.getLocation().getChunk());
+
+        Player player = Bukkit.getPlayer(nexus.getOwner());
+
+        if(player == null || !player.isOnline())
+            return;
+
         for (Generator generator : generators) {
             // Checking if there is a need to drop first, so if there is not, we don't calculate unnecessary things
             // If the gen is waiting to drop, then skip
@@ -45,10 +64,26 @@ public class GeneratorTask extends BukkitRunnable {
                 continue;
             }
 
+            int nearbyItems = 0;
+
+            for (Entity entity : generator.getLocation().getWorld().getNearbyEntities(generator.getLocation(), 3, 3, 3)) {
+                if (!(entity instanceof Item)) continue;
+
+                Item item = (Item) entity;
+                if (item.getItemStack().getType() == generator.getDrop()) {
+                    nearbyItems++;
+                }
+            }
+
+
+            if (nearbyItems >= Constants.MAX_UNPICKED_CANDLES_GENERATOR) {
+                continue;
+            }
+
             // if it needs to drop then update the latest drop to the current tick
             generator.nextDrop = System.currentTimeMillis();
 
-            Location spawnItemLocation = generator.getLocation().clone().add(0.5, 1.5, 0.5);
+            Location spawnItemLocation = generator.getLocation().clone().add(0.5, 1.45, 0.5);
 
             generator
                 .getLocation()

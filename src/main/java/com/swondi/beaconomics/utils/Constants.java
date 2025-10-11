@@ -66,6 +66,9 @@ public class Constants {
     public static final String UI_SHOP_TOOLS_MENU_VALUE = "shop_tools_menu";
     public static final String UI_BEACON_LEVEL_KEY = "buy_beacon_level_";
 
+    public static final int MAX_UNPICKED_CANDLES_GENERATOR = 10;
+
+
     public static final Map<String, KitData> DATA_KITS = new HashMap<>() {{
         put("Starter", new KitData(300));
         put("Spark", new KitData(86400));
@@ -120,22 +123,22 @@ public class Constants {
 
     public static final Map<Material, GeneratorData> DATA_GENERATORS = new HashMap<>() {{
         // Wool-based generators
-        put(Material.WHITE_WOOL, new GeneratorData(6000, 20, "White Generator", "White Candle", Material.WHITE_CANDLE, ChatColor.WHITE));
-        put(Material.LIGHT_GRAY_WOOL, new GeneratorData(12500, 20, "Light Gray Generator", "Light Gray Candle", Material.LIGHT_GRAY_CANDLE, ChatColor.GRAY));
-        put(Material.GRAY_WOOL, new GeneratorData(25000, 20, "Gray Generator", "Gray Candle", Material.GRAY_CANDLE, ChatColor.DARK_GRAY));
-        put(Material.BLACK_WOOL, new GeneratorData(37500, 20, "Black Generator", "Black Candle", Material.BLACK_CANDLE, ChatColor.BLACK));
-        put(Material.RED_WOOL, new GeneratorData(62500, 20, "Red Generator", "Red Candle", Material.RED_CANDLE, ChatColor.RED));
+        put(Material.WHITE_WOOL, new GeneratorData(3000, 40, "White Generator", "White Candle", Material.WHITE_CANDLE, ChatColor.WHITE));
+        put(Material.LIGHT_GRAY_WOOL, new GeneratorData(12500, 40, "Light Gray Generator", "Light Gray Candle", Material.LIGHT_GRAY_CANDLE, ChatColor.GRAY));
+        put(Material.GRAY_WOOL, new GeneratorData(25000, 40, "Gray Generator", "Gray Candle", Material.GRAY_CANDLE, ChatColor.DARK_GRAY));
+        put(Material.BLACK_WOOL, new GeneratorData(37500, 40, "Black Generator", "Black Candle", Material.BLACK_CANDLE, ChatColor.BLACK));
+        put(Material.RED_WOOL, new GeneratorData(60000, 40, "Red Generator", "Red Candle", Material.RED_CANDLE, ChatColor.RED));
 
         // Concrete-based generators
-        put(Material.ORANGE_CONCRETE, new GeneratorData(60000, 40, "Orange Generator", "Orange Candle", Material.ORANGE_CANDLE, ChatColor.GOLD));
-        put(Material.YELLOW_CONCRETE, new GeneratorData(120000, 40, "Yellow Generator", "Yellow Candle", Material.YELLOW_CANDLE, ChatColor.YELLOW));
-        put(Material.LIME_CONCRETE, new GeneratorData(300000, 60, "Lime Generator", "Lime Candle", Material.LIME_CANDLE, ChatColor.GREEN));
-        put(Material.GREEN_CONCRETE, new GeneratorData(1200000, 60, "Green Generator", "Green Candle", Material.GREEN_CANDLE, ChatColor.DARK_GREEN));
-        put(Material.CYAN_CONCRETE, new GeneratorData(1800000, 80, "Cyan Generator", "Cyan Candle", Material.CYAN_CANDLE, ChatColor.AQUA));
-        put(Material.LIGHT_BLUE_CONCRETE, new GeneratorData(1800000, 80, "Light Blue Generator", "Light Blue Candle", Material.LIGHT_BLUE_CANDLE, ChatColor.BLUE));
+        put(Material.ORANGE_CONCRETE, new GeneratorData(90000, 40, "Orange Generator", "Orange Candle", Material.ORANGE_CANDLE, ChatColor.GOLD));
+        put(Material.YELLOW_CONCRETE, new GeneratorData(280000, 40, "Yellow Generator", "Yellow Candle", Material.YELLOW_CANDLE, ChatColor.YELLOW));
+        put(Material.LIME_CONCRETE, new GeneratorData(390000, 60, "Lime Generator", "Lime Candle", Material.LIME_CANDLE, ChatColor.GREEN));
+        put(Material.GREEN_CONCRETE, new GeneratorData(700000, 60, "Green Generator", "Green Candle", Material.GREEN_CANDLE, ChatColor.DARK_GREEN));
+        put(Material.CYAN_CONCRETE, new GeneratorData(1000000, 80, "Cyan Generator", "Cyan Candle", Material.CYAN_CANDLE, ChatColor.AQUA));
+        put(Material.LIGHT_BLUE_CONCRETE, new GeneratorData(2000000, 80, "Light Blue Generator", "Light Blue Candle", Material.LIGHT_BLUE_CANDLE, ChatColor.BLUE));
 
         // Glazed Terracotta-based generators
-        put(Material.BLUE_GLAZED_TERRACOTTA, new GeneratorData(5000000, 100, "Blue Generator", "Blue Candle", Material.BLUE_CANDLE, ChatColor.DARK_BLUE));
+        put(Material.BLUE_GLAZED_TERRACOTTA, new GeneratorData(4500000, 100, "Blue Generator", "Blue Candle", Material.BLUE_CANDLE, ChatColor.DARK_BLUE));
         put(Material.PURPLE_GLAZED_TERRACOTTA, new GeneratorData(8750000, 100, "Purple Generator", "Purple Candle", Material.PURPLE_CANDLE, ChatColor.DARK_PURPLE));
         put(Material.MAGENTA_GLAZED_TERRACOTTA, new GeneratorData(15000000, 120, "Magenta Generator", "Magenta Candle", Material.MAGENTA_CANDLE, ChatColor.LIGHT_PURPLE));
         put(Material.PINK_GLAZED_TERRACOTTA, new GeneratorData(22500000, 120, "Pink Generator", "Pink Candle", Material.PINK_CANDLE, ChatColor.LIGHT_PURPLE));

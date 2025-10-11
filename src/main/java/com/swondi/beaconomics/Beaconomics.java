@@ -55,8 +55,9 @@ public final class Beaconomics extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new GrenadeListener(), this);
 
         // Binds luckperms API listener
-        LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
-        new LuckPermsListener(luckPerms).register();
+        //FIXME
+        /*LuckPerms luckPerms = getServer().getServicesManager().load(LuckPerms.class);
+        new LuckPermsListener(luckPerms).register();*/
 
         // Setup commands
         Objects.requireNonNull(getCommand("admin")).setExecutor(new AdminCommands());
